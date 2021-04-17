@@ -82,7 +82,7 @@ for linkedin_url in linkedin_urls:
     sleep(5) # tempo de espera de 5 segundos
     sel = Selector(text=driver.page_source) # coleta-se o código fonte da página daquele perfil
     name = sel.xpath('//div[@class="flex-1 mr5 pv-top-card__list-container"]/ul/li/text()').extract_first() # Coleta Nome
-    
+
     # Limpa Variável name
     if name:
         name = name.strip() # Tira Espaços Vazios Antes e depois
@@ -101,12 +101,12 @@ for linkedin_url in linkedin_urls:
 
     # Limpa Variável Escola & Empresa
     if len(company_college) > 1:
-        # Caso a pessoa tenha trabalho puxa ambos 
+        # Caso a pessoa tenha trabalho puxa ambos
         company = company_college[0] # Separando Variaveis
         college = company_college[1] # Separando Variaveis
     else:
         # Caso a pessoa não tenha trabalho puxa somente Escola
-        company = '' # Deixa Variável vazia 
+        company = '' # Deixa Variável vazia
         college = company_college[0] # Separando Variaveis
 
     if company:
