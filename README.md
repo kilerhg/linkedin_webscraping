@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Programa para realizar WebScraping em perfils do linkedin, retornando informações como Nome, Empresa ETC. Utilizando Selenium & Selector.
+Programa para realizar WebScraping em perfis do linkedin, retornando informações como Nome, Empresa ETC. Utilizando Selenium & Seletor.
 
 ## Como Usar
 
@@ -24,13 +24,13 @@ Abrir o Cmd ou PowerShell Na pasta e rodar o comando: ```python main.py```
 ## Task-List
 
 - [X] Desenvolver a ideia
-- [X] Logar No linkedin
+- [X] Fazer Login No linkedin
 - [X] Entra na Pagina desejada
 - [X] Achar Parâmetros nome,titulo,empresa,escola,link_perfil
 - [X] Salvar em Variáveis
 - [X] Criar funções que gravam em CSV
 
-## Biliografia
+## Bibliografia
 
-> * [Checando Existencia Arquivo](https://linuxize.com/post/python-check-if-file-exists/)
+> * [Checando Existência Arquivo](https://linuxize.com/post/python-check-if-file-exists/)
 > * [Documentação CSV](https://docs.python.org/3/library/csv.html)

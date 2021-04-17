@@ -8,20 +8,25 @@ def SalvarCsv(nome,titulo,empresa,escola,link,nome_arquivo='base'):
     try:
         f = open(f"{nome_arquivo}.csv") # Verifica Existencia
         with open(f'{nome_arquivo}.csv','a+', encoding='utf-8') as arquivo: # Define Atalho como arquivo
-            arquivo.write(f'{nome},{titulo},{empresa},{escola},{link}\n') # Salva as informações
+            arquivo.write(f'"{nome}";"{titulo}";"{empresa}";"{escola}";"{link}"\n') # Salva Dados Sobrepondo
 
     except IOError: # Caso não exista arquivo cai nesta exeção
         with open(f'{nome_arquivo}.csv','w+', encoding='utf-8') as arquivo:
-            arquivo.write('nome,titulo,empresa,escola,link\n') # Salva Cabeçalho
-            arquivo.write(f'{nome},{titulo},{empresa},{escola},{link}\n') # Salva Dados concatenando
+            arquivo.write('nome;titulo;empresa;escola;link\n') # Salva Cabeçalho
+            arquivo.write(f'"{nome}";"{titulo}";"{empresa}";"{escola}";"{link}"\n') # Salva Dados concatenando
 
     arquivo.close() # Fecha arquivo
 
 # aqui é feita a exigência das urls dos perfis
-#input_url = str(input('urls: ')) # aqui é feita a requisição dos urls
-#linkedin_url = input_url.split("https://") # aqui é feita a divisão dos urls pelo https
-#linkedin_url.remove(lista_url[0]) # o primeiro item da lista fica vazio e por isso o tirei
-linkedin_urls =  ['https://www.linkedin.com/in/andr%C3%A9-felipe-guisasola-antunes-9a0490173/'] #url de teste
+# input_url = str(input('urls: ')) # aqui é feita a requisição dos urls
+# linkedin_url = input_url.split("https://") # aqui é feita a divisão dos urls pelo https
+# linkedin_url.remove(lista_url[0]) # o primeiro item da lista fica vazio e por isso o tirei
+linkedin_urls =  ['https://www.linkedin.com/in/andr%C3%A9-felipe-guisasola-antunes-9a0490173/','https://www.linkedin.com/in/lucasnunesdeassis/',
+'https://www.linkedin.com/in/yan-liao-amorelli-0566b6175/',
+'https://www.linkedin.com/in/rabelonms/',
+'https://www.linkedin.com/in/jonathanpauluze/',
+'https://www.linkedin.com/in/ivoneijr/',
+'https://www.linkedin.com/in/danilo-carlos-pereira-da-silva-617377184/'] #url de teste
 #for i in range(len(linkedin_url)): # for loop pra completar cada item da lista com o restante que faltava da url
 #    url_completa="https://" + linkedin_url[i]
 #    linkedin_url_url[i]=url_completa
@@ -44,8 +49,9 @@ driver.get('https://www.linkedin.com')
 # Achando Campo Usuario
 username = driver.find_element_by_id('session_key')
 
-# Envia senha
+# Enviar Usuario
 username.send_keys(f'{usuario}')
+
 
 # dormida de 0.5 segundos
 sleep(1.0)
@@ -77,7 +83,6 @@ for linkedin_url in linkedin_urls:
     # Limpa Variável name
     if name:
         name = name.strip() # Tira Espaços Vazios Antes e depois
-        print(name)
     else:
         name = 'Nome não encontrado' # caso de erro retorna para Variável
 
@@ -86,7 +91,6 @@ for linkedin_url in linkedin_urls:
     # Limpa Variável Titulo
     if job_title:
         job_title = job_title.strip() # Tira Espaços Vazios Antes e depois
-        print(job_title)
     else:
         job_title = 'Trabalho não encontrado' # caso de erro retorna para Variável
 
@@ -109,7 +113,6 @@ for linkedin_url in linkedin_urls:
 
     if college:
         college = college.strip() # Tira Espaços Vazios Antes e depois
-        print(college)
     else:
         college = 'Acadêmico não encontrado' # caso de erro retorna para Variável
 
