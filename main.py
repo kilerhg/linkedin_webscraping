@@ -1,3 +1,6 @@
+__author__ = "kilerhg"
+# Link: https://github.com/kilerhg
+
 import csv
 from time import sleep
 from selenium import webdriver
