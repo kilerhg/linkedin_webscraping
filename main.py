@@ -5,7 +5,7 @@ import csv
 from time import sleep
 from selenium import webdriver
 from parsel import Selector
-from selenium.webdriver import Firefox
+from selenium.webdriver import Chrome
 
 def SalvarCsv(nome,titulo,empresa,escola,link,nome_arquivo='base'):
     try:
@@ -44,7 +44,8 @@ senha = input('Digite senha: ')
 
 
 # nessa etapa inicial o webdriver é aberto no diretório abaixo
-driver = Firefox()
+driver = Chrome()
+
 # nessa etapa é aberto o linkedin via webdriver
 driver.get('https://www.linkedin.com')
 # encontra a categoria de e-mail
@@ -119,7 +120,38 @@ for linkedin_url in linkedin_urls:
     else:
         college = 'Acadêmico não encontrado' # caso de erro retorna para Variável
 
+    faculdades = vit.xpath('//h3[@class="pv-entity__school-name t-16 t-black t-bold"]/text()').getall()
+
+
+    ano = vit.xpath('//p[@class="pv-entity__dates t-14 t-black--light t-normal"]/span[2]/time/text()').getall()
+    
+    # dando prioridade para arvore
+
+    #arvore = sel.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/ul').extract_first()
+
+    arvore = vit.xpath('//ul[@class="pv-profile-section__section-info section-info pv-profile-section__section-info--has-no-more"]/li[1]/section/ul').extract_first()
+    if arvore:
+        cargo = vit.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/ul/li[1]/div/div/div/div/div/div/h3/span[2]/text()').extract_first()
+        empresa_cargo = vit.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/a/div/div[2]/h3/span[2]/text()').extract_first()
+    else:
+        cargo = vit.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div[1]/a/div[2]/h3/text()').extract_first()
+        empresa_cargo = vit.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div/a/div[2]/p[2]/text()').extract_first()
+
     linkedin_url = driver.current_url # Pegando Link do Perfil Atual
 
-    SalvarCsv(name,job_title,company,college,linkedin_url) # Executando Função para salvar os dados
+    find
+    
+    if 'Universidade Estadual de Campinas' in faculdades:
+        print('teste')
+
+    print(f'''
+    ---------------------------------------------
+    Nome: {name}
+    Empresa: {empresa_cargo}
+    Faculdade: {college}
+
+    ---------------------------------------------
+    ''')
+
+    # SalvarCsv(name,job_title,company,college,linkedin_url) # Executando Função para salvar os dados
 driver.quit() # fecha-se o driver

@@ -1,0 +1,477 @@
+1618670647409	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileFeiwW9"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618670652502	Marionette	INFO	Listening on port 53670
+1618670653039	Marionette	WARN	TLS certificate errors will be ignored for this session
+1618670663744	Marionette	INFO	Stopped listening on port 53670
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618670677376	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofiledm8Oh1"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618670681986	Marionette	INFO	Listening on port 53828
+1618670682211	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.log: "RemoteSettingsWorker error: AbortError: IndexedDB:  execute() A request was aborted, for example through a call to IDBTransaction.abort."
+console.log: "RemoteSettingsWorker error: AbortError: IndexedDB:  execute() A request was aborted, for example through a call to IDBTransaction.abort."
+console.log: "RemoteSettingsWorker error: AbortError: IndexedDB:  execute() A request was aborted, for example through a call to IDBTransaction.abort."
+console.log: "RemoteSettingsWorker error: AbortError: IndexedDB:  execute() A request was aborted, for example through a call to IDBTransaction.abort."
+console.error: "Could not load engine google@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine wikipedia@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine mercadolivre@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine bing@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine ddg@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.warn: SearchService: "_init: abandoning init due to shutting down"
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+1618670685693	Marionette	INFO	Stopped listening on port 53828
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+JavaScript error: resource://gre/modules/CrashManager.jsm, line 833: NotAllowedError: Shutting down and refusing additional I/O tasks
+o-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileyhNZ2l"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1618670695779	Marionette	INFO	Listening on port 53894
+1618670696051	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://activity-stream/lib/ActivityStreamPrefs.jsm, line 27: NS_ERROR_ILLEGAL_VALUE: Component returned failure code: 0x80070057 (NS_ERROR_ILLEGAL_VALUE) [nsIPrefBranch.removeObserver]
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.error: "Could not load engine google@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine wikipedia@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.error: "Could not load engine mercadolivre@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine bing@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine ddg@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.warn: SearchService: "_init: abandoning init due to shutting down"
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+JavaScript error: , line 0: uncaught exception: 2147500036
+console.error: PushService: 
+  stateChangeProcessEnqueue: Error transitioning state
+  AbortError
+console.error: PushService: 
+  clearOriginData: Error clearing origin data:
+  AbortError
+1618670700572	Marionette	INFO	Stopped listening on port 53894
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+JavaScript error: resource://gre/modules/CrashManager.jsm, line 833: NotAllowedError: Shutting down and refusing additional I/O tasks
+1618670987699	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileRBaLDr"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1618670991796	Marionette	INFO	Listening on port 54557
+1618670991905	Marionette	WARN	TLS certificate errors will be ignored for this session
+1618671000474	Marionette	INFO	Stopped listening on port 54557
+1618671134584	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileTvmfQQ"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+[Parent 20684, IPC I/O Parent] WARNING: file /builds/worker/checkouts/gecko/ipc/chromium/src/base/process_util_win.cc:167
+1618671140565	Marionette	INFO	Listening on port 54703
+1618671140915	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://static-exp1.licdn.com/sc/h/bpob6bbc8gauqn4cct96xaqpf, line 1: Error: GoogleOneTapError display: unknown_reason
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618671185712	Marionette	INFO	Stopped listening on port 54703
+1618671258214	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileVD09Xo"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618671262407	Marionette	INFO	Listening on port 55137
+1618671262521	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 20912: Error: Failed to preload bundles: msg-overlay
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618671342930	Marionette	INFO	Stopped listening on port 55137
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618671449299	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofilejcxMMo"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618671453098	Marionette	INFO	Listening on port 55340
+1618671453498	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618671484472	Marionette	INFO	Stopped listening on port 55340
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618671570336	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofile6HxRvq"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618671574573	Marionette	INFO	Listening on port 55505
+1618671574658	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1618672117295	Marionette	INFO	Stopped listening on port 55505
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618673962260	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileAH1LH9"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618673967481	Marionette	INFO	Listening on port 57592
+1618673967577	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618674006951	Marionette	INFO	Stopped listening on port 57592
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+rs\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileWiGYN8"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618674005736	Marionette	INFO	Listening on port 57710
+1618674005815	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 571: TypeError: this.contentWindow is null
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618674023401	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+[Parent 13020, IPC I/O Parent] WARNING: file /builds/worker/checkouts/gecko/ipc/chromium/src/base/process_util_win.cc:167
+1618674179008	Marionette	INFO	Stopped listening on port 57710
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618674543858	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileK8OIUA"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1618674548543	Marionette	INFO	Listening on port 59750
+1618674548668	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 20912: Error: Failed to preload bundles: msg-overlay
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618674566060	Marionette	INFO	Stopped listening on port 59750
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618674666075	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileiqysme"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618674671743	Marionette	INFO	Listening on port 59969
+1618674671896	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618674683917	Marionette	INFO	Stopped listening on port 59969
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618683392510	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileHT8P2G"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618683397008	Marionette	INFO	Listening on port 57369
+1618683397326	Marionette	WARN	TLS certificate errors will be ignored for this session
+1618683416374	Marionette	INFO	Stopped listening on port 57369
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618683455858	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofile102nPJ"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618683460357	Marionette	INFO	Listening on port 57479
+1618683460673	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618683476476	Marionette	INFO	Stopped listening on port 57479
+[Parent 23968, IPC I/O Parent] WARNING: file /builds/worker/checkouts/gecko/ipc/chromium/src/base/process_util_win.cc:167
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618683677918	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileLbMSAo"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618683682663	Marionette	INFO	Listening on port 57761
+1618683682744	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618683697183	Marionette	INFO	Stopped listening on port 57761
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618683989735	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileQYOgQp"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618683994157	Marionette	INFO	Listening on port 58492
+1618683994773	Marionette	WARN	TLS certificate errors will be ignored for this session
+1618684005427	Marionette	INFO	Stopped listening on port 58492
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618684065874	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileqLAIvH"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618684070318	Marionette	INFO	Listening on port 58783
+1618684070735	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618684077162	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1618684077163	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618684142520	Marionette	INFO	Stopped listening on port 58783
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618684271536	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofiley4V1zP"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618684276361	Marionette	INFO	Listening on port 59127
+1618684276424	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618684348614	Marionette	INFO	Stopped listening on port 59127
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618684537336	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileSKists"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1618684542265	Marionette	INFO	Listening on port 60139
+1618684542656	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 571: TypeError: this.contentWindow is null
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618684614724	Marionette	INFO	Stopped listening on port 60139
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 301: InvalidStateError: JSWindowActorChild.contentWindow getter: Cannot access property 'contentWindow' after actor 'PictureInPictureToggle' has been destroyed
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 301: InvalidStateError: JSWindowActorChild.contentWindow getter: Cannot access property 'contentWindow' after actor 'PictureInPictureToggle' has been destroyed
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 301: InvalidStateError: JSWindowActorChild.contentWindow getter: Cannot access property 'contentWindow' after actor 'PictureInPictureToggle' has been destroyed
+[Parent 17760, IPC I/O Parent] WARNING: file /builds/worker/checkouts/gecko/ipc/chromium/src/base/process_util_win.cc:167
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618685303529	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileEiiHvX"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618685308544	Marionette	INFO	Listening on port 61258
+1618685309097	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618685379485	Marionette	INFO	Stopped listening on port 61258
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618692852138	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofile36PPCL"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618692856890	Marionette	INFO	Listening on port 53880
+1618692856984	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+1618692929153	Marionette	INFO	Stopped listening on port 53880
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618694392385	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofilevAfIl0"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1618694396569	Marionette	INFO	Listening on port 55447
+1618694396681	Marionette	WARN	TLS certificate errors will be ignored for this session
+1618694413946	Marionette	INFO	Stopped listening on port 55447
+ram Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofile4YTVoL"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+JavaScript error: resource://activity-stream/lib/ActivityStreamPrefs.jsm, line 27: NS_ERROR_ILLEGAL_VALUE: Component returned failure code: 0x80070057 (NS_ERROR_ILLEGAL_VALUE) [nsIPrefBranch.removeObserver]
+console.warn: services.settings: main/fxmonitor-breaches sync interrupted by shutdown
+JavaScript error: resource://gre/modules/JSONFile.jsm, line 196: Error: Data is not ready.
+JavaScript error: resource://activity-stream/lib/PlacesFeed.jsm, line 169: NS_ERROR_UNEXPECTED: Component returned failure code: 0x8000ffff (NS_ERROR_UNEXPECTED) [nsINavBookmarksService.addObserver]
+JavaScript error: resource://gre/modules/ExtensionSettingsStore.jsm, line 122: Error: The ExtensionSettingsStore was accessed before the initialize promise resolved.
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.error: "Could not load engine google@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine wikipedia@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine mercadolivre@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine bing@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine ddg@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.warn: SearchService: "_init: abandoning init due to shutting down"
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+console.error: PushService: 
+  stateChangeProcessEnqueue: Error transitioning state
+  AbortError
+console.error: PushService: 
+  clearOriginData: Error clearing origin data:
+  AbortError
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+JavaScript error: resource://gre/modules/CrashManager.jsm, line 833: NotAllowedError: Shutting down and refusing additional I/O tasks
+1618694475564	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofilecxcXc8"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1618694480348	Marionette	INFO	Listening on port 55580
+1618694480368	Marionette	WARN	TLS certificate errors will be ignored for this session
+1618694500029	Marionette	INFO	Stopped listening on port 55580
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+rs\\Lucas\\AppData\\Local\\Temp\\rust_mozprofile4A1Vco"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618694495101	Marionette	INFO	Listening on port 55636
+1618694495189	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/UrlClassifierListManager.jsm, line 691: TypeError: this.tablesData[table] is undefined
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.error: "Could not load engine google@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine wikipedia@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine mercadolivre@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine bing@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.error: "Could not load engine ddg@search.mozilla.org: [Exception... \"AddonManager is not initialized\"  nsresult: \"0xc1f30001 (NS_ERROR_NOT_INITIALIZED)\"  location: \"JS frame :: resource://gre/modules/AddonManager.jsm :: installBuiltinAddon :: line 2550\"  data: no]"
+console.warn: SearchService: "_init: abandoning init due to shutting down"
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+console.log: "RemoteSettingsWorker error: Error: Can't import when we've started shutting down."
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: uncaught exception: 2147500036
+1618694500078	Marionette	INFO	Stopped listening on port 55636
+JavaScript error: resource:///modules/EveryWindow.jsm, line 37: NS_ERROR_UNEXPECTED: Component returned failure code: 0x8000ffff (NS_ERROR_UNEXPECTED) [nsIWindowMediator.getEnumerator]
+JavaScript error: resource://gre/modules/CrashManager.jsm, line 833: NotAllowedError: Shutting down and refusing additional I/O tasks
+o-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofile2YuNBt"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1618694518543	Marionette	INFO	Listening on port 55710
+1618694518635	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1618695477953	Marionette	INFO	Stopped listening on port 55710
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1618696608524	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Lucas\\AppData\\Local\\Temp\\rust_mozprofileasQo6e"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1618696613576	Marionette	INFO	Listening on port 57720
+1618696613860	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement

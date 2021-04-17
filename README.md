@@ -29,6 +29,11 @@ Abrir o Cmd ou PowerShell Na pasta e rodar o comando: ```python main.py```
 - [X] Achar Parâmetros nome,titulo,empresa,escola,link_perfil
 - [X] Salvar em Variáveis
 - [X] Criar funções que gravam em CSV
+- [ ] Corrigir Campos buscar
+- [ ] Separar perfis com arvore e normal
+- [ ] Criar novos campos csv
+- [ ] Teste de qualidade
+
 
 ## Bibliografia
 
