@@ -475,3 +475,8 @@ JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu
 JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
 JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
 JavaScript warning: https://static-exp1.licdn.com/sc/h/6ecj64j2dgohxgy59qlejucyu, line 4290: unreachable code after return statement
+[Parent 15444, IPC I/O Parent] WARNING: file /builds/worker/checkouts/gecko/ipc/chromium/src/base/process_util_win.cc:167
+1618706757291	Marionette	INFO	Stopped listening on port 57720
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+

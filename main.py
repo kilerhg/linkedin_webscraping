@@ -7,16 +7,16 @@ from selenium import webdriver
 from parsel import Selector
 from selenium.webdriver import Chrome
 
-def SalvarCsv(nome,titulo,empresa,escola,link,nome_arquivo='base'):
+def SalvarCsv(nome,empresa,cargo,aluno,curso,ano_inicio,ano_termino,link_url_linkedin,nome_arquivo='base'):
     try:
         f = open(f"{nome_arquivo}.csv") # Verifica Existencia
         with open(f'{nome_arquivo}.csv','a+', encoding='utf-8') as arquivo: # Define Atalho como arquivo
-            arquivo.write(f'"{nome}";"{titulo}";"{empresa}";"{escola}";"{link}"\n') # Salva Dados Sobrepondo
+            arquivo.write(f'"{nome}";"{empresa}";"{cargo}";"{aluno}";"{curso}";"{ano_inicio}";"{ano_termino}";"{link_url_linkedin}"\n') # Salva Dados Sobrepondo
 
     except IOError: # Caso não exista arquivo cai nesta exeção
         with open(f'{nome_arquivo}.csv','w+', encoding='utf-8') as arquivo:
-            arquivo.write('nome;titulo;empresa;escola;link\n') # Salva Cabeçalho
-            arquivo.write(f'"{nome}";"{titulo}";"{empresa}";"{escola}";"{link}"\n') # Salva Dados concatenando
+            arquivo.write('nome;cargo;empresa;aluno_unicamp;curso;ingresso;egresso;link\n') # Salva Cabeçalho
+            arquivo.write(f'"{nome}";"{empresa}";"{cargo}";"{aluno}";"{curso}";"{ano_inicio}";"{ano_termino}";"{link_url_linkedin}"\n') # Salva Dados Concatenando
 
     arquivo.close() # Fecha arquivo
 
@@ -24,12 +24,7 @@ def SalvarCsv(nome,titulo,empresa,escola,link,nome_arquivo='base'):
 # input_url = str(input('urls: ')) # aqui é feita a requisição dos urls
 # linkedin_url = input_url.split("https://") # aqui é feita a divisão dos urls pelo https
 # linkedin_url.remove(lista_url[0]) # o primeiro item da lista fica vazio e por isso o tirei
-linkedin_urls =  ['https://www.linkedin.com/in/andr%C3%A9-felipe-guisasola-antunes-9a0490173/','https://www.linkedin.com/in/lucasnunesdeassis/',
-'https://www.linkedin.com/in/yan-liao-amorelli-0566b6175/',
-'https://www.linkedin.com/in/rabelonms/',
-'https://www.linkedin.com/in/jonathanpauluze/',
-'https://www.linkedin.com/in/ivoneijr/',
-'https://www.linkedin.com/in/danilo-carlos-pereira-da-silva-617377184/'] #url de teste
+linkedin_urls =  ['https://www.linkedin.com/in/lucasnunesdeassis/'] #url de teste
 #for i in range(len(linkedin_url)): # for loop pra completar cada item da lista com o restante que faltava da url
 #    url_completa="https://" + linkedin_url[i]
 #    linkedin_url_url[i]=url_completa
@@ -120,38 +115,37 @@ for linkedin_url in linkedin_urls:
     else:
         college = 'Acadêmico não encontrado' # caso de erro retorna para Variável
 
-    faculdades = vit.xpath('//h3[@class="pv-entity__school-name t-16 t-black t-bold"]/text()').getall()
+    faculdades = sel.xpath('//h3[@class="pv-entity__school-name t-16 t-black t-bold"]/text()').getall()
 
+    ano = sel.xpath('//p[@class="pv-entity__dates t-14 t-black--light t-normal"]/span[2]/time/text()').getall()
 
-    ano = vit.xpath('//p[@class="pv-entity__dates t-14 t-black--light t-normal"]/span[2]/time/text()').getall()
-    
     # dando prioridade para arvore
 
     #arvore = sel.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/ul').extract_first()
 
-    arvore = vit.xpath('//ul[@class="pv-profile-section__section-info section-info pv-profile-section__section-info--has-no-more"]/li[1]/section/ul').extract_first()
+    arvore = sel.xpath('//ul[@class="pv-profile-section__section-info section-info pv-profile-section__section-info--has-no-more"]/li[1]/section/ul').extract_first()
     if arvore:
-        cargo = vit.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/ul/li[1]/div/div/div/div/div/div/h3/span[2]/text()').extract_first()
-        empresa_cargo = vit.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/a/div/div[2]/h3/span[2]/text()').extract_first()
+        cargo = sel.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/ul/li[1]/div/div/div/div/div/div/h3/span[2]/text()').extract_first()
+        empresa_cargo = sel.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/a/div/div[2]/h3/span[2]/text()').extract_first()
     else:
-        cargo = vit.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div[1]/a/div[2]/h3/text()').extract_first()
-        empresa_cargo = vit.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div/a/div[2]/p[2]/text()').extract_first()
+        cargo = sel.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div[1]/a/div[2]/h3/text()').extract_first()
+        empresa_cargo = sel.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div/a/div[2]/p[2]/text()').extract_first()
+
+    faculdades = sel.xpath('//h3[@class="pv-entity__school-name t-16 t-black t-bold"]/text()').getall()
+    ano = sel.xpath('//p[@class="pv-entity__dates t-14 t-black--light t-normal"]/span[2]/time/text()').getall()
+    curso_atual = sel.xpath('//p[@class="pv-entity__secondary-title pv-entity__fos t-14 t-black t-normal"]/span[2]/text()').getall()
+
+    if 'Universidade Estadual de Campinas' in faculdades:
+        valor_index = faculdades.index('Universidade Estadual de Campinas')
+        a = valor_index * 2
+        ano_inicio, ano_termino = ano[a:a+2]
+        curso_atual = curso_atual[valor_index]
+        aluno = 'sim'
+    else:
+        ano_inicio, ano_termino = '---','---'
+        curso_atual = '---'
+        aluno = 'nao'
 
     linkedin_url = driver.current_url # Pegando Link do Perfil Atual
-
-    find
-    
-    if 'Universidade Estadual de Campinas' in faculdades:
-        print('teste')
-
-    print(f'''
-    ---------------------------------------------
-    Nome: {name}
-    Empresa: {empresa_cargo}
-    Faculdade: {college}
-
-    ---------------------------------------------
-    ''')
-
-    # SalvarCsv(name,job_title,company,college,linkedin_url) # Executando Função para salvar os dados
+    SalvarCsv(name,cargo.strip(),empresa_cargo.strip(),aluno.strip(),curso_atual.strip(),ano_inicio.strip(),ano_termino.strip(),linkedin_url.strip()) # Executando Função para salvar os dados
 driver.quit() # fecha-se o driver
