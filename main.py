@@ -29,9 +29,6 @@ def Limpador(dados):
     
     return final[1:]
 
-
-#dados_sujos = 'https://www.linkedin.com/in/tulio-pereira-608b066/https://www.linkedin.com/in/elso-rigon-5107a0/https://www.linkedin.com/in/lucas-andrade-07a99519/https://www.linkedin.com/in/patriciatmt/'
-
 dados_sujos = str(input('Digite os links de forma linear: ')).strip()
 
 #  aqui é feita a exigência das urls dos perfis
