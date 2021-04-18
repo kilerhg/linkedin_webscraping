@@ -46,7 +46,6 @@ velocidade_internet = 0.5 # Segue a tabela Abaixo para Medir
 # linkedin_url = input_url.split("https://") # aqui é feita a divisão dos urls pelo https
 # linkedin_url.remove(lista_url[0]) # o primeiro item da lista fica vazio e por isso o tirei
 linkedin_urls =  Limpador(dados_sujos) #url de teste
-#linkedin_urls = ['https://www.linkedin.com/in/cassiano-de-stefano-110b0b26/', 'https://www.linkedin.com/in/caldeira/', 'https://www.linkedin.com/in/joao-cerqueira/', 'https://www.linkedin.com/in/fabio-affonso-56b06868/', 'https://www.linkedin.com/in/atala/', 'https://www.linkedin.com/in/ronaldo-nascimento-optima/', 'https://www.linkedin.com/in/cristina-schuch-bb0669107/', 'https://www.linkedin.com/in/lidiane-oliveira-1a275922/', 'https://www.linkedin.com/in/neywsouza/', 'https://www.linkedin.com/in/andre-krell-pedro-4011b66/', 'https://www.linkedin.com/in/lidiane-oliveira-1a275922/', 'https://www.linkedin.com/in/lidiane-oliveira-1a275922/']
 
 #for i in range(len(linkedin_url)): # for loop pra completar cada item da lista com o restante que faltava da url
 #    url_completa="https://" + linkedin_url[i]
