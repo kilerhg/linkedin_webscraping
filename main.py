@@ -20,11 +20,25 @@ def SalvarCsv(nome,empresa,cargo,aluno,curso,ano_inicio,ano_termino,link_url_lin
 
     arquivo.close() # Fecha arquivo
 
-# aqui é feita a exigência das urls dos perfis
+def Limpador(dados):
+    dados = str(dados)
+    final = []
+    links = dados.split('https://')
+    for link in links:
+        final.append('https://'+link)
+    
+    return final[1:]
+
+
+#dados_sujos = 'https://www.linkedin.com/in/tulio-pereira-608b066/https://www.linkedin.com/in/elso-rigon-5107a0/https://www.linkedin.com/in/lucas-andrade-07a99519/https://www.linkedin.com/in/patriciatmt/'
+
+dados_sujos = str(input('Digite os links de forma linear: ')).strip()
+
+#  aqui é feita a exigência das urls dos perfis
 # input_url = str(input('urls: ')) # aqui é feita a requisição dos urls
 # linkedin_url = input_url.split("https://") # aqui é feita a divisão dos urls pelo https
 # linkedin_url.remove(lista_url[0]) # o primeiro item da lista fica vazio e por isso o tirei
-linkedin_urls =  ['https://www.linkedin.com/in/lucasnunesdeassis/'] #url de teste
+linkedin_urls =  Limpador(dados_sujos) #url de teste
 #for i in range(len(linkedin_url)): # for loop pra completar cada item da lista com o restante que faltava da url
 #    url_completa="https://" + linkedin_url[i]
 #    linkedin_url_url[i]=url_completa
@@ -44,7 +58,7 @@ driver = Chrome()
 # nessa etapa é aberto o linkedin via webdriver
 driver.get('https://www.linkedin.com')
 # encontra a categoria de e-mail
-
+        
 # Achando Campo Usuario
 username = driver.find_element_by_id('session_key')
 
