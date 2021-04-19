@@ -1,6 +1,8 @@
 __author__ = "kilerhg"
 # Link: https://github.com/kilerhg
 
+
+# Importando Bibliotecas
 import csv
 from time import sleep
 from selenium import webdriver
@@ -14,15 +16,16 @@ def SalvarCsv(nome,empresa,cargo,aluno,curso,ano_inicio,ano_termino,link_url_lin
     try:
         f = open(f"{nome_arquivo}.csv") # Verifica Existencia
         with open(f'{nome_arquivo}.csv','a+', encoding='utf-8') as arquivo: # Define Atalho como arquivo
-            arquivo.write(f'"{nome}";"{empresa}";"{cargo}";"{aluno}";"{curso}";"{ano_inicio}";"{ano_termino}";"{link_url_linkedin}"\n') # Salva Dados Sobrepondo
+            arquivo.write(f'"{nome}";"{empresa}";"{cargo}";"{aluno}";"{curso}";"{ano_inicio}";"{ano_termino}";"{link_url_linkedin}"\n') # Salva Dados Concatenando
 
     except IOError: # Caso não exista arquivo cai nesta exeção
         with open(f'{nome_arquivo}.csv','w+', encoding='utf-8') as arquivo:
             arquivo.write('nome;cargo;empresa;aluno_unicamp;curso;ingresso;egresso;link\n') # Salva Cabeçalho
-            arquivo.write(f'"{nome}";"{empresa}";"{cargo}";"{aluno}";"{curso}";"{ano_inicio}";"{ano_termino}";"{link_url_linkedin}"\n') # Salva Dados Concatenando
+            arquivo.write(f'"{nome}";"{empresa}";"{cargo}";"{aluno}";"{curso}";"{ano_inicio}";"{ano_termino}";"{link_url_linkedin}"\n') # Salva Dados Sobrepondo
 
     arquivo.close() # Fecha arquivo
 
+# Função
 def Limpador(dados):
     dados = str(dados)
     final = []
@@ -32,7 +35,8 @@ def Limpador(dados):
     
     return final[1:]
 
-dados_sujos = str(input('Digite os links de forma linear: ')).strip()
+# Recebe valores inbutidos
+dados_sujos = str(input('Digite os links de forma linear: ')).strip() # Recebendo dados do usuario
 
 velocidade_internet = 0.5 # Segue a tabela Abaixo para Medir
 # Muito Boa : 0.5 # Recomendado Começar Por aqui, se der problema vai aumentando
@@ -41,16 +45,7 @@ velocidade_internet = 0.5 # Segue a tabela Abaixo para Medir
 # Ruim      : 7
 # Muito Ruim: 10
 
-#  aqui é feita a exigência das urls dos perfis
-# input_url = str(input('urls: ')) # aqui é feita a requisição dos urls
-# linkedin_url = input_url.split("https://") # aqui é feita a divisão dos urls pelo https
-# linkedin_url.remove(lista_url[0]) # o primeiro item da lista fica vazio e por isso o tirei
-linkedin_urls =  Limpador(dados_sujos) #url de teste
-
-#for i in range(len(linkedin_url)): # for loop pra completar cada item da lista com o restante que faltava da url
-#    url_completa="https://" + linkedin_url[i]
-#    linkedin_url_url[i]=url_completa
-########## Urls armazenadas ##########
+linkedin_urls =  Limpador(dados_sujos) # Obtendo Urls a partir da Função Limpador
 
 
 ########## Armazenando Usuario e senha ##########
@@ -65,12 +60,12 @@ driver = Chrome()
 
 # nessa etapa é aberto o linkedin via webdriver
 driver.get('https://www.linkedin.com')
-# encontra a categoria de e-mail
-        
-# Achando Campo Usuario
+
+
+# Achando Campo Email
 username = driver.find_element_by_id('session_key')
 
-# Enviar Usuario
+# Enviar Email
 username.send_keys(f'{usuario}')
 
 
@@ -89,19 +84,21 @@ sleep(1.0)
 # localiza-se o botão de entrar
 log_in_button = driver.find_element_by_class_name('sign-in-form__submit-button')
 
-#clia-se no botão
+#clica-se no botão
 log_in_button.click()
 
 ########## DENTRO DO LINKEDIN ##########
 from parsel import Selector
+
+driver.maximize_window() # Deixa a janela Em tela Cheia, para atribuir Foco
 # faz-se o loop de iteração em cada url da lista de url
-driver.maximize_window()
-try:
+
     for linkedin_url in linkedin_urls:
+    try:
         print(linkedin_url)
         driver.get(linkedin_url) # o perfil da pessoa é acessado
-        sleep(velocidade_internet)
-        element = WebDriverWait(driver, 10).until(
+        sleep(velocidade_internet) # Descansa Dependendo da velocidade de internet da pessoa
+        element = WebDriverWait(driver, 40).until(
             EC.presence_of_element_located((By.XPATH, '//section[@class="pv-profile-section pv-profile-section--reorder-enabled background-section artdeco-card mt4 ember-view"]'))
             )
         sel = Selector(text=driver.page_source) # coleta-se o código fonte da página daquele perfil
@@ -176,7 +173,9 @@ try:
 
         linkedin_url = driver.current_url # Pegando Link do Perfil Atual
         SalvarCsv(name,cargo.strip(),empresa_cargo.strip(),aluno.strip(),curso_atual.strip(),ano_inicio.strip(),ano_termino.strip(),linkedin_url.strip()) # Executando Função para salvar os dados
-except :
-    print('Erro')
-    driver.quit() # fecha-se o driver
+    except :
+        SalvarCsv(name,'null','null','null','null','null','null',linkedin_url)
+        print(f'Erro Salvando CSV, Pessoa : {name}')
+        print('''Dica1: Apos iniciar o codigo nao mecha mais no computador,espere ele terminar de rodar
+        Dica2: Verifique sua velocidade de internet e atribua o valor certo a variavel''')
 driver.quit() # fecha-se o driver
