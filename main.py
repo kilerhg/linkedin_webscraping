@@ -1,15 +1,19 @@
 __author__ = "kilerhg"
 # Link: https://github.com/kilerhg
 
-import csv
-from time import sleep
-from selenium import webdriver
-from parsel import Selector
-from selenium.webdriver import Chrome
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
+# Importando Bibliotecas
+import csv # Armazenamento de dados
+from time import sleep # Computador descansa(hiberna) por x segundos
+from selenium import webdriver # controlar navegador
+from parsel import Selector # Navegar pelas tags html pelos dados
+from selenium.webdriver import Chrome # Busca o controle do chrome
+from selenium.webdriver.common.by import By # Busca uma tag & atual em conjunto com o EC
+from selenium.webdriver.support import expected_conditions as EC # Faz o computador esperar enquando uma tag não é carregada
+from selenium.webdriver.support.ui import WebDriverWait # Aguarda
+# Importando Bibliotecas
+
+# Função Para Salvar Dados em CSV
 def SalvarCsv(nome,empresa,cargo,aluno,curso,ano_inicio,ano_termino,link_url_linkedin,nome_arquivo='base'):
     try:
         f = open(f"{nome_arquivo}.csv") # Verifica Existencia
@@ -41,17 +45,7 @@ velocidade_internet = 2 # Segue a tabela Abaixo para Medir
 # Ruim      : 7
 # Muito Ruim: 10
 
-#  aqui é feita a exigência das urls dos perfis
-# input_url = str(input('urls: ')) # aqui é feita a requisição dos urls
-# linkedin_url = input_url.split("https://") # aqui é feita a divisão dos urls pelo https
-# linkedin_url.remove(lista_url[0]) # o primeiro item da lista fica vazio e por isso o tirei
-linkedin_urls =  Limpador(dados_sujos) #url de teste
-#linkedin_urls = ['https://www.linkedin.com/in/cassiano-de-stefano-110b0b26/', 'https://www.linkedin.com/in/caldeira/', 'https://www.linkedin.com/in/joao-cerqueira/', 'https://www.linkedin.com/in/fabio-affonso-56b06868/', 'https://www.linkedin.com/in/atala/', 'https://www.linkedin.com/in/ronaldo-nascimento-optima/', 'https://www.linkedin.com/in/cristina-schuch-bb0669107/', 'https://www.linkedin.com/in/lidiane-oliveira-1a275922/', 'https://www.linkedin.com/in/neywsouza/', 'https://www.linkedin.com/in/andre-krell-pedro-4011b66/', 'https://www.linkedin.com/in/lidiane-oliveira-1a275922/', 'https://www.linkedin.com/in/lidiane-oliveira-1a275922/']
-
-#for i in range(len(linkedin_url)): # for loop pra completar cada item da lista com o restante que faltava da url
-#    url_completa="https://" + linkedin_url[i]
-#    linkedin_url_url[i]=url_completa
-########## Urls armazenadas ##########
+linkedin_urls =  Limpador(dados_sujos) # Limpeza e rebecimentos das varias URLS
 
 
 ########## Armazenando Usuario e senha ##########
@@ -66,12 +60,12 @@ driver = Chrome()
 
 # nessa etapa é aberto o linkedin via webdriver
 driver.get('https://www.linkedin.com')
-# encontra a categoria de e-mail
 
-# Achando Campo Usuario
+
+# encontra a categoria de e-mail
 username = driver.find_element_by_id('session_key')
 
-# Enviar Usuario
+# Enviar E-mail
 username.send_keys(f'{usuario}')
 
 
@@ -90,13 +84,13 @@ sleep(1.0)
 # localiza-se o botão de entrar
 log_in_button = driver.find_element_by_class_name('sign-in-form__submit-button')
 
-#clia-se no botão
+#clica-se no botão
 log_in_button.click()
 
 ########## DENTRO DO LINKEDIN ##########
 from parsel import Selector
 # faz-se o loop de iteração em cada url da lista de url
-driver.maximize_window()
+driver.maximize_window() # Coloca em Tela Cheia, com finalidade de deixar a tela em foco
 #try:
 for linkedin_url in linkedin_urls:
     driver.get(linkedin_url) # o perfil da pessoa é acessado
@@ -104,7 +98,7 @@ for linkedin_url in linkedin_urls:
     sleep(velocidade_internet)
     element = WebDriverWait(driver, 30).until(
         EC.presence_of_element_located((By.XPATH, '//section[@class="pv-profile-section pv-profile-section--reorder-enabled background-section artdeco-card mt4 ember-view"]'))
-        )
+        ) # Aguarda para continuar enquanto tag x não carregar
     sel = Selector(text=driver.page_source) # coleta-se o código fonte da página daquele perfil
     name = sel.xpath('//div[@class="flex-1 mr5 pv-top-card__list-container"]/ul/li/text()').extract_first() # Coleta Nome
 
