@@ -33,6 +33,7 @@ Abrir o Cmd ou PowerShell Na pasta e rodar o comando: ```python main.py```
 - [X] Separar perfis com arvore e normal
 - [X] Criar novos campos csv
 - [X] Teste de qualidade
+- [ ] Pesquisar Sobre tag href, com link unicamp
 
 ## Bibliografia
 
