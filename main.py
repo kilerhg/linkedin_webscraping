@@ -3,19 +3,13 @@ __author__ = "kilerhg"
 # Link: https://github.com/kilerhg
 
 
-# Importando Bibliotecas
-import csv  # Armazenamento de dados
-from os import path
-from time import sleep  # Computador descansa(hiberna) por x segundos
-from selenium import webdriver  # controlar navegador
-from parsel import Selector  # Navegar pelas tags html pelos dados
-from selenium.webdriver import Chrome  # Busca o controle do chrome
-from selenium.webdriver.common.by import By  # Busca uma tag & atual em conjunto com o EC
-from selenium.webdriver.support import expected_conditions as EC  # Faz o computador esperar enquando uma tag não é carregada
-from selenium.webdriver.support.ui import WebDriverWait  # Aguarda
-
-
-# Importando Bibliotecas
+import csv
+from time import sleep
+from parsel import Selector
+from selenium.webdriver import Chrome
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 def salvar_csv(nome, empresa, cargo, aluno, curso, ano_inicio, ano_termino, link_url_linkedin, nome_arquivo='base'):
@@ -23,8 +17,6 @@ def salvar_csv(nome, empresa, cargo, aluno, curso, ano_inicio, ano_termino, link
         Função para a escrita e criação do arvquivo CSV.
 
         :param nome_arquivo: nome do arquivo.
-        
-        dados:
         :param nome: nome da pessoa.
         :param empresa: nome da impresa.
         :param cargo: nome do cargo.
@@ -35,7 +27,7 @@ def salvar_csv(nome, empresa, cargo, aluno, curso, ano_inicio, ano_termino, link
         :param link_url_linkedin: link do perfil.
     """
     try:
-        with open(f'{nome_arquivo}.csv', 'a', encoding='utf-8') as arquivo:  # Define Atalho como arquivo
+        with open(f'{nome_arquivo}.csv', 'a', encoding='utf-8') as arquivo:
             arquivo.write(f'"{nome}",'
                           f'"{empresa}",'
                           f'"{cargo}",'
@@ -59,7 +51,7 @@ def salvar_csv(nome, empresa, cargo, aluno, curso, ano_inicio, ano_termino, link
                          f'"{link_url_linkedin}"')
 
 
-def Limpador(dados):
+def limpador(dados):
     dados = str(dados)
     final = []
     links = dados.split('https://')
@@ -78,48 +70,32 @@ velocidade_internet = 2  # Segue a tabela Abaixo para Medir
 # Ruim      : 7
 # Muito Ruim: 10
 
-linkedin_urls = Limpador(dados_sujos)  # Limpeza e rebecimentos das varias URLS
+linkedin_urls = limpador(dados_sujos)  # Limpeza e rebecimentos das varias URLS
 
-########## Armazenando Usuario e senha ##########
+# entrada de login e senha do usuario
 usuario = input('Digite usuario: ')
 senha = input('Digite senha: ')
-########## Armazenando Usuario e senha ##########
 
-
-# nessa etapa inicial o webdriver é aberto no diretório abaixo
 driver = Chrome()
-
-# nessa etapa é aberto o linkedin via webdriver
 driver.get('https://www.linkedin.com')
 
-# encontra a categoria de e-mail
 username = driver.find_element_by_id('session_key')
-
-# Enviar E-mail
 username.send_keys(f'{usuario}')
 
 # dormida de 0.5 segundos
 sleep(1.0)
 
-# encontra categoria de senha
 password = driver.find_element_by_id('session_password')
-
-# Enviar Senha
 password.send_keys(f'{senha}')
 
 # dormida de 1 segundo
 sleep(1.0)
 
-# localiza-se o botão de entrar
 log_in_button = driver.find_element_by_class_name('sign-in-form__submit-button')
-
-# clica-se no botão
 log_in_button.click()
 
 ########## DENTRO DO LINKEDIN ##########
-from parsel import Selector
 
-# faz-se o loop de iteração em cada url da lista de url
 driver.maximize_window()  # Coloca em Tela Cheia, com finalidade de deixar a tela em foco
 # try:
 for linkedin_url in linkedin_urls:
@@ -187,44 +163,43 @@ for linkedin_url in linkedin_urls:
             curso_atual = curso_atual[0]
 
     else:
-        ano_inicio, ano_termino = '---', '---'
-        curso_atual = '---'
+        ano_inicio = ano_termino = curso_atual = '---'
         aluno = 'nao'
 
     if cargo:
-        cargo = cargo.strip()  # Tira Espaços Vazios Antes e depois
+        cargo = cargo.strip()
     else:
-        cargo = 'não encontrado'  # caso de erro retorna para Variável
+        cargo = 'não encontrado'
 
     if empresa_cargo:
-        empresa_cargo = empresa_cargo.strip()  # Tira Espaços Vazios Antes e depois
+        empresa_cargo = empresa_cargo.strip()
     else:
-        empresa_cargo = 'não encontrado'  # caso de erro retorna para Variável
+        empresa_cargo = 'não encontrado'
 
     if aluno:
-        aluno = aluno.strip()  # Tira Espaços Vazios Antes e depois
+        aluno = aluno.strip()
     else:
-        aluno = 'não encontrado'  # caso de erro retorna para Variável
+        aluno = 'não encontrado'
 
     if curso_atual:
-        curso_atual = curso_atual.strip()  # Tira Espaços Vazios Antes e depois
+        curso_atual = curso_atual.strip()
     else:
-        curso_atual = 'curso_atual não encontrado'  # caso de erro retorna para Variável
+        curso_atual = 'curso_atual não encontrado'
 
     if ano_inicio:
-        ano_inicio = ano_inicio.strip()  # Tira Espaços Vazios Antes e depois
+        ano_inicio = ano_inicio.strip()
     else:
-        ano_inicio = ' não encontrado'  # caso de erro retorna para Variável
+        ano_inicio = 'não encontrado'
 
     if ano_termino:
-        ano_termino = ano_termino.strip()  # Tira Espaços Vazios Antes e depois
+        ano_termino = ano_termino.strip()
     else:
-        ano_termino = ' não encontrado'  # caso de erro retorna para Variável
+        ano_termino = 'não encontrado'
 
     linkedin_url = driver.current_url  # Pegando Link do Perfil Atual
-    SalvarCsv(name, cargo, empresa_cargo, aluno, curso_atual, ano_inicio, ano_termino,
-              linkedin_url.strip())  # Executando Função para salvar os dados
+    salvar_csv(name, cargo, empresa_cargo, aluno, curso_atual, ano_inicio, ano_termino,
+               linkedin_url.strip())
 # except :
 #    print('Erro')
 #    driver.quit() # fecha-se o driver
-driver.quit()  # fecha-se o driver
+driver.quit()
