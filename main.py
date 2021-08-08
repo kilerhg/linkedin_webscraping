@@ -53,14 +53,15 @@ def salvar_csv(nome, empresa, cargo, aluno, curso, ano_inicio, ano_termino, link
     """
     try:
         with open(f'{nome_arquivo}.csv', 'a', encoding='utf-8') as arquivo:
-            arquivo.write(f'"{nome}",'
-                          f'"{empresa}",'
-                          f'"{cargo}",'
-                          f'"{aluno}",'
-                          f'"{curso}",'
-                          f'"{ano_inicio}",'
-                          f'"{ano_termino}",'
-                          f'"{link_url_linkedin}"\n')  # Salva Dados Sobrepondo
+            arq = csv.writer()
+            arq.writerow(f'"{nome}",'
+                         f'"{empresa}",'
+                         f'"{cargo}",'
+                         f'"{aluno}",'
+                         f'"{curso}",'
+                         f'"{ano_inicio}",'
+                         f'"{ano_termino}",'
+                         f'"{link_url_linkedin}"')  # Salva Dados Sobrepondo
 
     except IOError:  # Caso não exista arquivo cai nesta exeção
         with open(f'{nome_arquivo}.csv', 'w+', encoding='utf-8') as arquivo:
