@@ -4,9 +4,10 @@ __author__ = "kilerhg"
 
 
 import csv
-import requests
 import sys
 from time import sleep
+
+import requests
 from parsel import Selector
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
@@ -85,6 +86,7 @@ def limpador(dados):
     return final[1:]
 
 
+checar_conexao()
 dados_sujos = str(input('Digite os links de forma linear: ')).strip()
 
 velocidade_internet = 2  # Segue a tabela Abaixo para Medir
