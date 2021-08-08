@@ -4,6 +4,7 @@ __author__ = "kilerhg"
 
 
 import csv
+import requests
 from time import sleep
 from parsel import Selector
 from selenium.webdriver import Chrome
@@ -134,8 +135,6 @@ for linkedin_url in linkedin_urls:
     ano = sel.xpath(Xpaths.ano).getall()
 
     # dando prioridade para arvore
-
-    # arvore = sel.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/ul').extract_first()
 
     arvore = sel.xpath(Xpaths.arvore).extract_first()
     if arvore:
