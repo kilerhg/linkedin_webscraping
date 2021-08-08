@@ -5,6 +5,7 @@ __author__ = "kilerhg"
 
 import csv
 import requests
+import sys
 from time import sleep
 from parsel import Selector
 from selenium.webdriver import Chrome
@@ -25,6 +26,14 @@ class Xpaths:
     empresa_cargo_arvore = '//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/a/div/div[2]/h3/span[2]/text()'
     empresa_cargo = '//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div/a/div[2]/p[2]/text()'
     curso_atual = '//p[@class="pv-entity__secondary-title pv-entity__fos t-14 t-black t-normal"]/span[2]/text()'
+
+
+def checar_conexao():
+    try:
+        requests.get("https://google.com/")
+    except requests.exceptions.HTTPError:
+        erro = sys.stderr
+        erro.write("Você não esta conectado a internet.")
 
 
 def salvar_csv(nome, empresa, cargo, aluno, curso, ano_inicio, ano_termino, link_url_linkedin, nome_arquivo='base'):
