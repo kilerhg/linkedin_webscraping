@@ -12,6 +12,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
+class Xpaths:
+    tag_x = '//section[@class="pv-profile-section pv-profile-section--reorder-enabled background-section artdeco-card mt4 ember-view"]'
+    name = '//div[@class="flex-1 mr5 pv-top-card__list-container"]/ul/li/text()'
+    job_title = '//div[@class="flex-1 mr5 pv-top-card__list-container"]/h2/text()'
+    faculdades = '//h3[@class="pv-entity__school-name t-16 t-black t-bold"]/text()'
+    ano = '//p[@class="pv-entity__dates t-14 t-black--light t-normal"]/span[2]/time/text()'
+    arvore = '//ul[@class="pv-profile-section__section-info section-info pv-profile-section__section-info--has-no-more"]/li[1]/section/ul'
+    cargo_arvore = '//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/ul/li[1]/div/div/div/div/div/div/h3/span[2]/text()'
+    cargo = '//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div[1]/a/div[2]/h3/text()'
+    empresa_cargo_arvore = '//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/a/div/div[2]/h3/span[2]/text()'
+    empresa_cargo = '//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div/a/div[2]/p[2]/text()'
+    curso_atual = '//p[@class="pv-entity__secondary-title pv-entity__fos t-14 t-black t-normal"]/span[2]/text()'
+
+
 def salvar_csv(nome, empresa, cargo, aluno, curso, ano_inicio, ano_termino, link_url_linkedin, nome_arquivo='base'):
     """
         Função para a escrita e criação do arvquivo CSV.
@@ -102,13 +116,10 @@ for linkedin_url in linkedin_urls:
     driver.get(linkedin_url)  # o perfil da pessoa é acessado
     print(linkedin_url)
     sleep(velocidade_internet)
-    element = WebDriverWait(driver, 30).until(
-        EC.presence_of_element_located((By.XPATH,
-                                        '//section[@class="pv-profile-section pv-profile-section--reorder-enabled background-section artdeco-card mt4 ember-view"]'))
-    )  # Aguarda para continuar enquanto tag x não carregar
+    WebDriverWait(driver, 30).until(
+        EC.presence_of_element_located((By.XPATH, Xpaths.tag_x)))  # Aguarda para continuar enquanto tag x não carregar
     sel = Selector(text=driver.page_source)  # coleta-se o código fonte da página daquele perfil
-    name = sel.xpath(
-        '//div[@class="flex-1 mr5 pv-top-card__list-container"]/ul/li/text()').extract_first()  # Coleta Nome
+    name = sel.xpath(Xpaths.name).extract_first()  # Coleta Nome
 
     # Limpa Variável name
     if name:
@@ -116,34 +127,27 @@ for linkedin_url in linkedin_urls:
     else:
         name = 'Nome não encontrado'  # caso de erro retorna para Variável
 
-    job_title = sel.xpath(
-        '//div[@class="flex-1 mr5 pv-top-card__list-container"]/h2/text()').extract_first()  # Coleta Titulo
+    job_title = sel.xpath(Xpaths.job_title).extract_first()  # Coleta Titulo
 
-    faculdades = sel.xpath('//h3[@class="pv-entity__school-name t-16 t-black t-bold"]/text()').getall()
+    faculdades = sel.xpath(Xpaths.faculdades).getall()
 
-    ano = sel.xpath('//p[@class="pv-entity__dates t-14 t-black--light t-normal"]/span[2]/time/text()').getall()
+    ano = sel.xpath(Xpaths.ano).getall()
 
     # dando prioridade para arvore
 
     # arvore = sel.xpath('//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/ul').extract_first()
 
-    arvore = sel.xpath(
-        '//ul[@class="pv-profile-section__section-info section-info pv-profile-section__section-info--has-no-more"]/li[1]/section/ul').extract_first()
+    arvore = sel.xpath(Xpaths.arvore).extract_first()
     if arvore:
-        cargo = sel.xpath(
-            '//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/ul/li[1]/div/div/div/div/div/div/h3/span[2]/text()').extract_first()
-        empresa_cargo = sel.xpath(
-            '//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/a/div/div[2]/h3/span[2]/text()').extract_first()
+        cargo = sel.xpath(Xpaths.cargo_arvore).extract_first()
+        empresa_cargo = sel.xpath(Xpaths.empresa_cargo_arvore).extract_first()
     else:
-        cargo = sel.xpath(
-            '//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div[1]/a/div[2]/h3/text()').extract_first()
-        empresa_cargo = sel.xpath(
-            '//li[@class="pv-entity__position-group-pager pv-profile-section__list-item ember-view"]/section/div/div/a/div[2]/p[2]/text()').extract_first()
+        cargo = sel.xpath(Xpaths.cargo).extract_first()
+        empresa_cargo = sel.xpath(Xpaths.empresa_cargo).extract_first()
 
-    faculdades = sel.xpath('//h3[@class="pv-entity__school-name t-16 t-black t-bold"]/text()').getall()
-    ano = sel.xpath('//p[@class="pv-entity__dates t-14 t-black--light t-normal"]/span[2]/time/text()').getall()
-    curso_atual = sel.xpath(
-        '//p[@class="pv-entity__secondary-title pv-entity__fos t-14 t-black t-normal"]/span[2]/text()').getall()
+    faculdades = sel.xpath(Xpaths.faculdades).getall()
+    ano = sel.xpath(Xpaths.ano).getall()
+    curso_atual = sel.xpath(Xpaths.curso_atual).getall()
 
     faculdades = [item.lower() for item in faculdades]
 
