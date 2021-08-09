@@ -5,7 +5,7 @@ __author__ = "kilerhg"
 
 import csv
 import sys
-from time import sleep
+from time import sleep, time
 
 import requests
 from parsel import Selector
@@ -86,16 +86,19 @@ def limpador(dados):
 
     return final[1:]
 
-
+partida = time()
 checar_conexao()
-dados_sujos = str(input('Digite os links de forma linear: ')).strip()
-
-velocidade_internet = 2  # Segue a tabela Abaixo para Medir
+fim = time()
+# agora a pausa é definida dinãmicamente
+velocidade_internet = round(fim - partida)  # Segue a tabela Abaixo para Medir
 # Muito Boa : 0.5 # Recomendado Começar Por aqui, se der problema vai aumentando
 # Boa       : 2
 # Moderada  : 5
 # Ruim      : 7
 # Muito Ruim: 10
+
+
+dados_sujos = str(input('Digite os links de forma linear: ')).strip()
 
 linkedin_urls = limpador(dados_sujos)  # Limpeza e rebecimentos das varias URLS
 
