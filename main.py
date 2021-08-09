@@ -32,7 +32,7 @@ class Xpaths:
 def checar_conexao():
     try:
         requests.get("https://google.com/")
-    except requests.exceptions.HTTPError:
+    except requests.exceptions.ConnectionError:
         erro = sys.stderr
         erro.write("Você não esta conectado a internet.")
 
