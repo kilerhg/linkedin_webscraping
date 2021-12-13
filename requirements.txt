@@ -1,5 +1,5 @@
 cssselect==1.1.0
-lxml==4.6.3
+lxml==4.6.5
 parsel==1.6.0
 selenium==3.141.0
 six==1.15.0
