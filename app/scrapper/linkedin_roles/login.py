@@ -12,9 +12,7 @@ class XpathsLogin:
 
 
 def login_linkedin(driver):
-    input()
-
-    sleep(1.0)
+    sleep(2.0)
 
     login = driver.find_element(By.XPATH, XpathsLogin.email_input)
     login.send_keys(settings.LINKEDIN_EMAIL)
@@ -22,11 +20,12 @@ def login_linkedin(driver):
     sleep(1.0)
 
     password = driver.find_element(By.XPATH, XpathsLogin.password_input)
-    password.send_keys(settings.LINKEDIN_PASSWORD)
+    
+    for char in settings.LINKEDIN_PASSWORD:
+        password.send_keys(char)
+        sleep(0.01)
 
     sleep(1.0)
 
     log_in_button = driver.find_element(By.XPATH, XpathsLogin.login_button)
     log_in_button.click()
-
-    input()
