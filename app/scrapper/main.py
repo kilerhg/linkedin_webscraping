@@ -12,7 +12,7 @@ from app.scrapper.utils.utils import (
     write_summary_markdown,
 )
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 def score_record(record):

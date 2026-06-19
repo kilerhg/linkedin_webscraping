@@ -10,6 +10,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
+from app.scrapper.config.scoring import NEGATIVE_BUCKETS
+
 # Default location for scraped posts. parents[3] = repo root:
 # utils -> scrapper -> app -> root.
 DATA_DIR = Path(__file__).resolve().parents[3] / "data"
@@ -45,8 +47,8 @@ def save_posts_json(posts, path=POSTS_JSON):
 
 
 def _format_matched(matched):
-    """Render the positive (non-deal-breaker) buckets as a compact one-liner."""
-    positives = {b: kws for b, kws in matched.items() if b != "dealbreaker"}
+    """Render the positive (non-disqualifier) buckets as a compact one-liner."""
+    positives = {b: kws for b, kws in matched.items() if b not in NEGATIVE_BUCKETS}
     if not positives:
         return "_(no keyword matches)_"
     return "; ".join(f"**{bucket}**: {', '.join(keywords)}"
@@ -64,8 +66,11 @@ def _post_detail_lines(record):
     ]
     if record.get("email"):
         lines.append(f"- **Contact:** {record['email']}")
-    if matched.get("dealbreaker"):
-        lines.append(f"- **Flags:** {', '.join(matched['dealbreaker'])}")
+    flags = {b: matched[b] for b in NEGATIVE_BUCKETS if matched.get(b)}
+    if flags:
+        rendered = "; ".join(f"**{bucket}**: {', '.join(kws)}"
+                             for bucket, kws in flags.items())
+        lines.append(f"- **Flags:** {rendered}")
     lines.append(f"- **Excerpt:** {excerpt}…")
     return lines
 
@@ -94,7 +99,7 @@ def write_summary_markdown(posts, top_n, min_score, roles=None, path=None, hours
         if posted_at < cutoff or record.get("score", 0) < min_score:
             continue
         matched = record.get("matched_keywords", {})
-        if exclude_dealbreakers and matched.get("dealbreaker"):
+        if exclude_dealbreakers and any(matched.get(b) for b in NEGATIVE_BUCKETS):
             continue
         if require_remote and not matched.get("remote"):
             continue

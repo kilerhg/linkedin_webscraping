@@ -30,6 +30,13 @@ def load_buckets(path=BUCKETS_FILE):
 # other bucket is a single signal counted by presence (synonyms mean the same).
 SKILL_CAP, BUCKETS = load_buckets()
 
+# Buckets with a negative weight are disqualifiers (dealbreaker, visa_block, …).
+# The digest treats them as flags and excludes posts that hit them — derive the
+# set from the weights so adding a new negative bucket needs no code change.
+NEGATIVE_BUCKETS = frozenset(
+    name for name, bucket in BUCKETS.items() if bucket["weight"] < 0
+)
+
 
 def _matches(text, keyword):
     """True when ``keyword`` appears in already-lowercased ``text``."""

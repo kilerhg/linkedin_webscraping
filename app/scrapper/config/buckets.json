@@ -4,27 +4,33 @@
     "skill": {
       "weight": 2,
       "keywords": [
-        "python", "fastapi", "flask", "rest api", "restful", "microservices",
-        "grpc", "etl", "elt", "data pipeline", "data pipelines",
-        "airflow", "azure data factory", "adf", "spark",
-        "pyspark", "databricks",
-        "unity catalog", "bigquery", "elasticsearch", "lakehouse",
-        "data warehouse", "data lake", "medallion", "data modeling",
-        "data governance", "pandas", "numpy", "scikit-learn", "machine learning",
-        "deep learning", "llm", "nlp", "generative ai", "prompt engineering",
-        "computer vision", "yolo", "rtsp", "webrtc", "mqtt", "web scraping",
-        "sql", "postgresql", "postgres", "pgvector", "vector database", "nosql",
-        "mongodb", "sqlite", "redis", "aws", "azure", "gcp", "docker",
-        "kubernetes", "linux", "git", "power bi", "tableau", "looker"
+        "python", "fastapi", "flask", "rest api", "rest apis", "restful", "apis",
+        "microservices", "grpc", "etl", "elt", "data pipeline", "data pipelines",
+        "data engineering", "orchestration", "airflow", "azure data factory",
+        "adf", "spark", "pyspark", "databricks", "snowflake", "unity catalog",
+        "bigquery", "elasticsearch", "lakehouse", "data warehouse", "data lake",
+        "medallion", "data modeling", "data governance", "pandas", "numpy",
+        "scikit-learn", "machine learning", "deep learning", "llm", "llms",
+        "nlp", "generative ai", "genai", "prompt engineering", "rag",
+        "retrieval-augmented generation", "agentic", "agentic ai", "ai agents",
+        "multi-agent", "agent frameworks", "langchain", "langgraph", "llamaindex",
+        "openai", "computer vision", "yolo", "rtsp", "webrtc", "mqtt",
+        "web scraping", "sql", "postgresql", "postgres", "pgvector",
+        "vector database", "vector databases", "nosql", "mongodb", "sqlite",
+        "redis", "pydantic", "sqlalchemy", "aws", "azure", "gcp", "docker",
+        "kubernetes", "ci/cd", "cicd", "devops", "observability", "linux", "git",
+        "power bi", "tableau", "looker"
       ]
     },
     "role": {
       "weight": 5,
       "keywords": [
-        "data engineer", "python engineer", "backend engineer",
-        "back-end engineer", "software engineer", "data tech lead", "tech lead",
-        "data architect", "platform engineer", "machine learning engineer",
-        "ml engineer", "ai engineer"
+        "data engineer", "python engineer", "python developer", "backend engineer",
+        "back-end engineer", "backend developer", "software engineer",
+        "software developer", "data tech lead", "tech lead", "data architect",
+        "platform engineer", "machine learning engineer", "ml engineer",
+        "ai engineer", "ai/ml engineer", "genai engineer", "gen ai engineer",
+        "llm engineer", "agentic ai engineer"
       ]
     },
     "seniority": {
@@ -34,18 +40,40 @@
     "remote": {
       "weight": 5,
       "keywords": [
-        "remote", "fully remote", "work from home", "wfh", "home office",
-        "hybrid", "work from anywhere"
+        "remote", "fully remote", "100% remote", "remote-first", "remotely",
+        "work from home", "wfh", "home office", "hybrid", "work from anywhere",
+        "distributed team", "latam", "brazil", "brasil",
+        "relocation", "relocate", "relocation assistance", "relocation package"
+      ]
+    },
+    "visa_block": {
+      "weight": -100,
+      "keywords": [
+        "security clearance", "clearance", "us citizen", "u.s. citizen",
+        "citizens only", "citizenship required", "australian citizen", "usc",
+        "gc only", "green card", "work authorization", "h1b", "stem opt",
+        "h4 ead", "h4ead", "c2c", "no sponsorship", "no visa sponsorship",
+        "sponsorship is not available", "w2", "w-2", "us-based", "us based",
+        "local candidates only", "eu citizen", "eu work permit",
+        "right to work in the uk", "uk work permit", "settled status",
+        "indefinite leave to remain"
       ]
     },
     "dealbreaker": {
       "weight": -10,
       "keywords": [
         "junior", "intern", "internship", "trainee", "estagio", "estagiario",
-        "work from office", "on-site", "onsite", "in office", "onsite only",
-        "no remote", "relocation", "relocate", "must relocate",
-        "security clearance", "clearance", "us citizen", "green card", "unpaid",
-        "java"
+        "recent graduate", "new graduate", "fresh graduate", "fresher",
+        "work from office", "from office", "wfo", "on-site",
+        "onsite", "in office", "onsite only", "no remote",
+        "notice period", "immediate joiner", "immediate joiners", "ctc", "lpa",
+        "india", "bangalore", "bengaluru", "hyderabad", "noida", "gurugram",
+        "gurgaon", "pune", "chennai", "mumbai", "kolkata", "indore", "vizag",
+        "visakhapatnam", "delhi", "ahmedabad", "coimbatore", "kochi", "jaipur",
+        "nagpur", "mysore", "mysuru", "trivandrum",
+        "unpaid", "java", ".net", "c#", "sap", "embedded systems", "embedded c",
+        "qa automation", "test automation", "automation testing", "sdet",
+        "business analyst", "data analyst"
       ]
     }
   }

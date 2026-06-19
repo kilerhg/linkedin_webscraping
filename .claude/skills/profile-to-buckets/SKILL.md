@@ -17,11 +17,12 @@ pipeline is a daily digest of the few best-matching last-24h job posts (see the
 {
   "skill_cap": 6,
   "buckets": {
-    "skill":       { "weight": 2,   "keywords": ["python", "spark", "airflow"] },
-    "role":        { "weight": 5,   "keywords": ["data engineer", "tech lead"] },
-    "seniority":   { "weight": 3,   "keywords": ["senior", "staff", "lead"] },
-    "remote":      { "weight": 5,   "keywords": ["remote", "hybrid"] },
-    "dealbreaker": { "weight": -10, "keywords": ["junior", "on-site", "relocation"] }
+    "skill":       { "weight": 2,    "keywords": ["python", "spark", "airflow"] },
+    "role":        { "weight": 5,    "keywords": ["data engineer", "tech lead"] },
+    "seniority":   { "weight": 3,    "keywords": ["senior", "staff", "lead"] },
+    "remote":      { "weight": 5,    "keywords": ["remote", "hybrid", "relocation"] },
+    "dealbreaker": { "weight": -10,  "keywords": ["junior", "on-site", "wfo"] },
+    "visa_block":  { "weight": -100, "keywords": ["us citizen", "no visa sponsorship"] }
   }
 }
 ```
@@ -34,8 +35,17 @@ pipeline is a daily digest of the few best-matching last-24h job posts (see the
   `skill_cap`** — a long tool dump can't dominate. Pick `skill_cap` ≈ 6.
 - **role / seniority / remote** count **once by presence** (any synonym hitting =
   one signal). Put synonyms of the same idea in the same bucket.
-- **dealbreaker** is negative and, in the digest, **hard-excludes** the post by
-  default (`JOB_EXCLUDE_DEALBREAKERS`). Reserve it for true disqualifiers.
+- **Any bucket with `weight < 0` is a disqualifier** (`scoring.py` derives
+  `NEGATIVE_BUCKETS` from the weights). In the digest these **hard-exclude** the
+  post by default (`JOB_EXCLUDE_DEALBREAKERS`) and render under `Flags:`. Two tiers:
+  - **dealbreaker** (−10) — soft "skip" (onsite, staffing noise, wrong stack).
+  - **visa_block** (−100) — categorical "never": right-to-work walls. The steep
+    weight guarantees even a perfect role (≈+25) nets negative (≈−75) and is
+    dropped even if exclusion is disabled. Adding more negative buckets needs no
+    code change — just give them a negative weight.
+- Keyword matching uses **word boundaries** (symbol-free) — so plurals/suffixes
+  do NOT match (`llm`≠"llms", `python engineer`≠"python developer"). Add each
+  surface form that appears in real posts.
 
 ## Procedure
 1. **Read the profile.** Extract: core skills/tools, target roles, seniority
@@ -51,16 +61,25 @@ pipeline is a daily digest of the few best-matching last-24h job posts (see the
 3. **role bucket** — the person's target job titles + close synonyms.
 4. **seniority bucket** — levels at/above the person's (e.g. senior, staff, lead,
    principal). Omit ones they're over/under-qualified for.
-5. **remote bucket** — work-modes they want (remote, hybrid, work from home, …).
-6. **dealbreaker bucket** — disqualifiers implied by the profile: seniority floor
-   (`junior`, `intern`, `trainee`), unwanted on-site/relocation (`on-site`,
-   `work from office`, `relocation`), visa/clearance walls (`security clearance`,
-   `us citizen`, `green card`), and tech stacks they refuse. Keep it conservative
-   — every keyword here can drop an otherwise-good post.
-7. **weights** — sensible defaults: skill 2, role 5, seniority 3, remote 5,
-   dealbreaker -10. Raise remote / deepen dealbreaker if the user prioritizes
-   work-mode; raise role if title-fit matters most.
-8. **Write** valid JSON to `app/scrapper/config/buckets.json` (already exempted
+5. **remote bucket** — really a **work-mode/eligibility** bucket: the modes they
+   want (remote, hybrid, work from home, …) plus region-open signals (`latam`,
+   `brazil`) and, **if they're open to moving, relocation signals** (`relocation`,
+   `relocation package`). Relocation is a *positive* here unless the profile says
+   they won't move.
+6. **dealbreaker bucket** (−10) — soft disqualifiers: seniority floor (`junior`,
+   `intern`, `trainee`), unwanted on-site (`on-site`, `work from office`, `wfo`),
+   unwanted locales (e.g. cities/countries they can't work in), under-leveling
+   roles, and tech stacks they refuse. Keep it conservative.
+7. **visa_block bucket** (−100) — only **categorical right-to-work walls** the
+   person cannot clear (no auth + won't sponsor): citizenship/visa requirements
+   (`us citizen`, `green card`, `h1b`, `eu work permit`), US-employment terms that
+   imply local auth (`w2`, `c2c`, `us-based`), `security clearance`, and explicit
+   `no visa sponsorship`. Do NOT include relocation or country names that *offer*
+   sponsorship. Match specific `work authorization`, not bare `authorization`.
+8. **weights** — sensible defaults: skill 2, role 5, seniority 3, remote 5,
+   dealbreaker -10, visa_block -100. Raise remote / deepen dealbreaker if the user
+   prioritizes work-mode; raise role if title-fit matters most.
+9. **Write** valid JSON to `app/scrapper/config/buckets.json` (already exempted
    from the `*.json` gitignore rule). Do not edit `scoring.py` — it loads this
    file at import.
 
@@ -71,5 +90,6 @@ print('cap', SKILL_CAP, 'buckets', list(BUCKETS)); \
 print(score_post('Senior Data Engineer, remote, Python, Spark, Airflow'))"
 ```
 Expect a positive score with `role`, `seniority`, `remote`, and `skill` in the
-matched buckets. Sanity-check a known-bad post (e.g. "Junior on-site") scores low
-/ trips a dealbreaker.
+matched buckets (and `NEGATIVE_BUCKETS` importable). Sanity-check a soft-bad post
+(e.g. "Junior on-site") trips a `dealbreaker`, and a hard-bad post (e.g. "Remote,
+US citizens only") trips `visa_block` and goes deeply negative.

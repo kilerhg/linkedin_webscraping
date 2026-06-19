@@ -38,24 +38,34 @@ each module has a single responsibility — keep it that way:
 - **Waits, not sleeps**: use `utils.wait_for_element` (and `WebDriverWait`) — no
   `time.sleep` for rendering. Handle `StaleElementReferenceException` per card.
 
-## Scoring heuristic — [scoring.py](app/scrapper/config/scoring.py)
-`score_post(text) -> (score, matched)`. Weighted keyword buckets, tunable here:
-- **skill** (+2 each, capped at `SKILL_CAP=6`) — so a long tool dump can't
-  outweigh fit signals. Avoid redundant variants (no `etl` + `etl/elt`).
+## Scoring heuristic — [scoring.py](app/scrapper/config/scoring.py) (mechanism) + [buckets.json](app/scrapper/config/buckets.json) (data)
+`score_post(text) -> (score, matched)`. `scoring.py` is pure mechanism; the
+keywords/weights are **data in `buckets.json`** (loaded at import). Buckets:
+- **skill** (+2 each, capped at `skill_cap=6`) — so a long tool dump can't
+  outweigh fit signals.
 - **role** (+5), **seniority** (+3), **remote** (+5) — counted **by presence**
-  (synonyms in a bucket = one signal).
-- **dealbreaker** (−10) — on-site/relocation/junior/clearance/etc.
+  (synonyms in a bucket = one signal). The **remote** bucket also holds
+  eligibility signals: `latam`/`brazil` and **relocation** (the candidate is open
+  to remote *or* relocation, so relocation is a positive).
+- **dealbreaker** (−10) — soft skips: onsite/India-locale/junior/staffing-noise.
+- **visa_block** (−100) — absolute kill for right-to-work walls the candidate
+  can't clear (US/EU citizenship, `w2`/`c2c`, `no visa sponsorship`, …).
+Any bucket with **weight < 0** is treated as negative (see below) — `scoring.py`
+exposes `NEGATIVE_BUCKETS`. For the full rationale see the `job-scoring-rules`
+skill; to regenerate from a resume see `profile-to-buckets`.
 
 ## Summary selection — [utils.py](app/scrapper/utils/utils.py) `write_summary_markdown`
 - Filter to posts within the last 24h with `score >= JOB_SUMMARY_MIN_SCORE`.
-- **Hard-exclude** deal-breaker posts when `JOB_EXCLUDE_DEALBREAKERS` (default on);
+- **Hard-exclude** posts hitting **any negative bucket** (`NEGATIVE_BUCKETS`:
+  `dealbreaker`, `visa_block`) when `JOB_EXCLUDE_DEALBREAKERS` (default on);
   require an explicit remote mention when `JOB_REQUIRE_REMOTE` (default off).
 - Rank by score desc, take top `JOB_SUMMARY_TOP_N`, write
-  `data/summary-YYYY-MM-DD.md`. Deal-breakers render on a separate `Flags:` line,
-  never under `Matched:`.
+  `data/summary-YYYY-MM-DD.md`. Negative buckets render on a separate `Flags:`
+  line (grouped by bucket), never under `Matched:`.
 
 ## Configuration split
-- **Keyword weights** live in code ([scoring.py](app/scrapper/config/scoring.py)).
+- **Keywords & weights** live in data ([buckets.json](app/scrapper/config/buckets.json));
+  `scoring.py` just loads and applies them — don't edit it to tune.
 - **Selection knobs** are `.env`-overridable via
   [config.py](app/config.py) `settings`: `JOB_SUMMARY_TOP_N`,
   `JOB_SUMMARY_MIN_SCORE`, `JOB_EXCLUDE_DEALBREAKERS`, `JOB_REQUIRE_REMOTE`.
