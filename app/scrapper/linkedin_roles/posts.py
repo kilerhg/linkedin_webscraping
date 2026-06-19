@@ -9,9 +9,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 
 
-from app.config import settings
+from app.scrapper.utils.utils import wait_for_element
 from dataclasses import dataclass
-from time import sleep
 from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
@@ -40,10 +39,27 @@ class XpathsPost:
 
 @dataclass
 class QueryPost:
-    default_endpoint = 'https://www.linkedin.com/search/results/content/?datePosted=%22past-week%22&keywords=%22{keywords}%22&sid=8gN&sortBy=%22relevance%22'
-    extra = 'remote'
-    
-    data_engineer_endpoint = default_endpoint.format(keywords="SENIOR%20DATA%20ENGINEER")
+    default_endpoint = 'https://www.linkedin.com/search/results/content/?datePosted=%22past-week%22&keywords={keywords}&sortBy=%22relevance%22'
+
+    # Per-role search keyword strings; main.py iterates these to scrape each role.
+    data_engineer = '"HIRING" "DATA ENGINEER"'
+    python_engineer = '"HIRING" "PYTHON ENGINEER"'
+    data_tech_lead = '"HIRING" "TECH LEAD" "DATA"'
+
+    @classmethod
+    def endpoint_for(cls, keywords):
+        """Build the content-search endpoint URL for a keywords string."""
+        return cls.default_endpoint.format(keywords=keywords)
+
+    @classmethod
+    def role_keywords(cls):
+        """Map each defined role -> its search keywords string."""
+        return {
+            name: value
+            for name, value in vars(cls).items()
+            if isinstance(value, str) and not name.startswith("_")
+            and name != "default_endpoint"
+        }
 
 
 def get_text_if_exists(post, xpath):
@@ -56,6 +72,23 @@ def get_attr_if_exists(post, xpath, attribute):
     """Return ``attribute`` of the first element matching ``xpath`` inside ``post``, or ''."""
     elements = post.find_elements(By.XPATH, xpath)
     return (elements[0].get_attribute(attribute) or '') if elements else ''
+
+
+# Trailing "… more" / "…more" / "...more" label of the (unclicked) expander.
+_SEE_MORE_SUFFIX_RE = re.compile(r"\s*(?:…|\.\.\.)\s*more\s*$", re.IGNORECASE)
+
+
+def get_post_content(post):
+    """Return the post's full text. The complete content is in the DOM even while
+    LinkedIn visually truncates it, so we read the full rendered text (``innerText``,
+    which keeps line breaks/spacing, falling back to ``textContent``) rather than
+    the visible-only Selenium ``.text``, then strip the trailing "… more" label."""
+    elements = post.find_elements(By.XPATH, XpathsPost.post_content)
+    if not elements:
+        return ''
+    element = elements[0]
+    text = element.get_attribute("innerText") or element.get_attribute("textContent") or ''
+    return _SEE_MORE_SUFFIX_RE.sub("", text).strip()
 
 
 def dismiss_copy_toast(driver):
@@ -136,12 +169,20 @@ def extract_linkedin_time(post_id):
     return datetime.fromtimestamp(unix_ms / 1000, tz=timezone.utc)
 
 
-def search_posts(driver, goal_post=20, max_idle_scrolls=3):
-    sleep(1)
-    driver.get(QueryPost.data_engineer_endpoint)
-    sleep(1)
+def search_posts(driver, keywords, goal_post=1000, max_idle_scrolls=30, known_ids=None):
+    """Scrape job posts for the search ``keywords`` and return them as a
+    ``{post_id: record}`` dict.
 
-    dict_posts = {}
+    Skips any id in ``known_ids`` (already collected this run or on a previous
+    one), so only new posts are returned. Scoring, persistence and summary
+    generation are the caller's responsibility (see ``main.run_scrapper``)."""
+    known_ids = known_ids or set()
+
+    driver.get(QueryPost.endpoint_for(keywords))
+    # Wait for the first result card to render before scraping.
+    wait_for_element(driver, XpathsPost.post_card, timeout=15)
+
+    dict_posts = {}  # only this run's new posts
     idle_scrolls = 0
 
     while len(dict_posts) < goal_post and idle_scrolls < max_idle_scrolls:
@@ -155,7 +196,8 @@ def search_posts(driver, goal_post=20, max_idle_scrolls=3):
                     continue
 
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", post)
-                sleep(0.5)
+                # Wait for the card's menu button to render after the scroll.
+                wait_for_element(driver, XpathsPost.control_menu_button, clickable=True, context=post)
 
                 post_id, post_url = get_post_id_via_menu(driver, post)
                 driver.execute_script("arguments[0].setAttribute('data-scrapped', '1');", post)
@@ -165,8 +207,9 @@ def search_posts(driver, goal_post=20, max_idle_scrolls=3):
                 ActionChains(driver).send_keys(Keys.ESCAPE).perform()
                 continue
 
-            # Skip posts without an id or ones we already collected (dedup).
-            if not post_id or post_id in dict_posts:
+            # Skip posts without an id, already collected on a previous run, or
+            # already collected this run (dedup by post id).
+            if not post_id or post_id in known_ids or post_id in dict_posts:
                 continue
 
             dict_posts[post_id] = {
@@ -175,7 +218,7 @@ def search_posts(driver, goal_post=20, max_idle_scrolls=3):
                 'posted_at': extract_linkedin_time(post_id).isoformat(),
                 'author_profile_url': get_attr_if_exists(post, XpathsPost.author_profile_url, 'href'),
                 'author_name': get_text_if_exists(post, XpathsPost.author_name),
-                'post_content': get_text_if_exists(post, XpathsPost.post_content),
+                'post_content': get_post_content(post),
                 'linkedin_job_url': get_attr_if_exists(post, XpathsPost.linkedin_job_url, 'href'),
             }
             logger.debug('Scrapped post %s (%d/%d)', post_id, len(dict_posts), goal_post)
@@ -190,15 +233,13 @@ def search_posts(driver, goal_post=20, max_idle_scrolls=3):
             idle_scrolls += 1
 
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        sleep(2)
+        # Wait for more cards to lazy-load; idle detection handles a timeout.
+        try:
+            WebDriverWait(driver, 5).until(
+                lambda d: len(d.find_elements(By.XPATH, XpathsPost.post_card)) > len(posts)
+            )
+        except TimeoutException:
+            pass
 
-    logger.info('Collected %d posts (goal %d)', len(dict_posts), goal_post)
+    logger.info('Scraped %d new posts', len(dict_posts))
     return dict_posts
-
-
-
-
-
-def scroll_posts(driver): ...
-
-def extract_posts(driver): ...

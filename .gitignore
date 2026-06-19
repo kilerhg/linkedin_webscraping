@@ -9,3 +9,8 @@ venv/
 .env
 *.pyc
 .venv
+driver/
+data/
+
+# Config data that must be tracked despite the broad *.json rule above.
+!app/scrapper/config/buckets.json

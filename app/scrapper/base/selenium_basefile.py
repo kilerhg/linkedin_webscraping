@@ -1,8 +1,13 @@
+from pathlib import Path
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-import time
+
+# Persisted Chrome profile (cookies + localStorage) at the repo root's driver/.
+# parents[3] = repo root: base -> scrapper -> app -> root.
+PROFILE_DIR = Path(__file__).resolve().parents[3] / "driver" / "profile"
 
 
 class SeleniumConfig():
@@ -12,6 +17,10 @@ class SeleniumConfig():
 
     def config(self):
         options = Options()
+
+        # 0. Reuse a persistent profile so the LinkedIn session survives restarts.
+        PROFILE_DIR.mkdir(parents=True, exist_ok=True)
+        options.add_argument(f"--user-data-dir={PROFILE_DIR}")
 
         # 1. Anti-Bot and Masking Flags
         options.add_argument("--disable-blink-features=AutomationControlled")
