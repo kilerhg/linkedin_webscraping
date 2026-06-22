@@ -11,6 +11,10 @@ class BaseConfig(BaseSettings):
     app_env: str = "development"
     logging_level: str = "DEBUG"
 
+    # When True, run Chrome headed (visible) so you can watch/debug the scrape.
+    # When False (default, e.g. cron), run headless so it needs no X display.
+    DEBUG: bool = False
+
     LINKEDIN_EMAIL: str
     LINKEDIN_PASSWORD: str
 

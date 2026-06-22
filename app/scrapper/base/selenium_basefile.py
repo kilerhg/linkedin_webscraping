@@ -5,6 +5,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
+from app.config import settings
+
 # Persisted Chrome profile (cookies + localStorage) at the repo root's driver/.
 # parents[3] = repo root: base -> scrapper -> app -> root.
 PROFILE_DIR = Path(__file__).resolve().parents[3] / "driver" / "profile"
@@ -21,6 +23,11 @@ class SeleniumConfig():
         # 0. Reuse a persistent profile so the LinkedIn session survives restarts.
         PROFILE_DIR.mkdir(parents=True, exist_ok=True)
         options.add_argument(f"--user-data-dir={PROFILE_DIR}")
+
+        # When not debugging, run headless so it works under cron with no X
+        # display; DEBUG=True keeps the browser visible to watch/troubleshoot.
+        if not settings.DEBUG:
+            options.add_argument("--headless=new")
 
         # 1. Anti-Bot and Masking Flags
         options.add_argument("--disable-blink-features=AutomationControlled")

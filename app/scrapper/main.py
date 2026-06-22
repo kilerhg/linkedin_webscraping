@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 
 from app.config import settings
-from app.scrapper.base.selenium_basefile import SeleniumConfig
+from app.scrapper.base.selenium_basefile import PROFILE_DIR, SeleniumConfig
 from app.scrapper.config.scoring import score_post
 from app.scrapper.linkedin_roles import login, posts
 from app.scrapper.utils.alerts import select_alert_posts, send_ntfy_alert, send_test_alert
@@ -92,12 +92,35 @@ def push_alerts(new_posts):
     logging.info('Alerts: %d qualified, %d sent', len(alerts), sent)
 
 
-def run_scrapper():
-    driver = SeleniumConfig().get_driver()
-    login.ensure_logged_in(driver)
+def clear_stale_chrome_locks():
+    """Remove leftover Chrome ``Singleton*`` lock files from a previously killed
+    run (e.g. a ``timeout``-ed cron run) so a fresh Chrome can claim the profile
+    instead of failing with ``SessionNotCreatedException``. Safe because
+    ``run_scrapper`` holds ``single_instance_lock`` — no other run is using the
+    profile right now."""
+    for name in ("SingletonLock", "SingletonCookie", "SingletonSocket"):
+        try:
+            (PROFILE_DIR / name).unlink()
+            logging.info('Cleared stale Chrome lock: %s', name)
+        except FileNotFoundError:
+            pass
+        except OSError as exc:
+            logging.warning('Could not remove stale %s: %s', name, exc)
 
+
+def run_scrapper():
+    clear_stale_chrome_locks()
     existing = load_posts_json()
-    new_posts, roles = harvest_new_posts(driver, existing)
+
+    # Browser is only needed for login + scraping; quit it as soon as the harvest
+    # is done (in finally, so a crash/kill can't leak Chrome and wedge the next
+    # run), then do the CPU-only persistence/summary below.
+    driver = SeleniumConfig().get_driver()
+    try:
+        login.ensure_logged_in(driver)
+        new_posts, roles = harvest_new_posts(driver, existing)
+    finally:
+        driver.quit()
 
     # Real-time push for the fresh, strong matches in this harvest (apply first).
     push_alerts(new_posts)
