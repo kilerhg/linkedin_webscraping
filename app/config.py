@@ -23,5 +23,13 @@ class BaseConfig(BaseSettings):
     # Only include posts that explicitly mention remote/hybrid work.
     JOB_REQUIRE_REMOTE: bool = False
 
+    # Real-time alert run (the 7-9am poller): push a notification for fresh,
+    # high-scoring posts so you can apply first. See run_alerts() in main.py.
+    NTFY_SERVER: str = "https://ntfy.sh"
+    NTFY_TOPIC: str = ""           # 64-hex random string -> set in .env
+    NTFY_TOKEN: str = ""           # optional bearer token for an access-controlled topic
+    JOB_ALERT_MIN_SCORE: int = 18  # only ping for strong-to-ideal matches
+    JOB_ALERT_MAX_AGE_MIN: int = 60  # only ping for posts this fresh (be first to apply)
+
 
 settings = BaseConfig()

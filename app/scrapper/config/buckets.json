@@ -51,8 +51,9 @@
       "keywords": [
         "security clearance", "clearance", "us citizen", "u.s. citizen",
         "citizens only", "citizenship required", "australian citizen", "usc",
-        "gc only", "green card", "work authorization", "h1b", "stem opt",
-        "h4 ead", "h4ead", "c2c", "no sponsorship", "no visa sponsorship",
+        "gc only", "green card", "work authorization", "h1b", "h-1b", "stem opt",
+        "h4 ead", "h4ead", "c2c", "valid work permit",
+        "no sponsorship", "no visa sponsorship",
         "sponsorship is not available", "w2", "w-2", "us-based", "us based",
         "local candidates only", "eu citizen", "eu work permit",
         "right to work in the uk", "uk work permit", "settled status",
@@ -67,13 +68,16 @@
         "work from office", "from office", "wfo", "on-site",
         "onsite", "in office", "onsite only", "no remote",
         "notice period", "immediate joiner", "immediate joiners", "ctc", "lpa",
+        "hotlist", "bench sales", "available consultants", "working with a bench",
+        "represent my consultants", "c2h", "opentowork",
+        "looking for new opportunities",
         "india", "bangalore", "bengaluru", "hyderabad", "noida", "gurugram",
         "gurgaon", "pune", "chennai", "mumbai", "kolkata", "indore", "vizag",
         "visakhapatnam", "delhi", "ahmedabad", "coimbatore", "kochi", "jaipur",
         "nagpur", "mysore", "mysuru", "trivandrum",
         "unpaid", "java", ".net", "c#", "sap", "embedded systems", "embedded c",
         "qa automation", "test automation", "automation testing", "sdet",
-        "business analyst", "data analyst"
+        "business analyst", "data analyst", "c++", "golang"
       ]
     }
   }

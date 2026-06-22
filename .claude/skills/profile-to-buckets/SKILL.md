@@ -69,7 +69,12 @@ pipeline is a daily digest of the few best-matching last-24h job posts (see the
 6. **dealbreaker bucket** (−10) — soft disqualifiers: seniority floor (`junior`,
    `intern`, `trainee`), unwanted on-site (`on-site`, `work from office`, `wfo`),
    unwanted locales (e.g. cities/countries they can't work in), under-leveling
-   roles, and tech stacks they refuse. Keep it conservative.
+   roles, tech stacks they refuse (use the **specific** form — `c++`/`golang`,
+   never bare `c`/`go`), and **job-seeker / bench-sales noise** — posts *seeking*
+   work or a recruiter pitching candidates rather than offering a role (`hotlist`,
+   `bench sales`, `available consultants`, `c2h`, `opentowork`). Keep it
+   conservative, and beware that "looking for"/"seeking" appear in both hiring and
+   seeking posts — keep only self-referential/bench-specific forms.
 7. **visa_block bucket** (−100) — only **categorical right-to-work walls** the
    person cannot clear (no auth + won't sponsor): citizenship/visa requirements
    (`us citizen`, `green card`, `h1b`, `eu work permit`), US-employment terms that

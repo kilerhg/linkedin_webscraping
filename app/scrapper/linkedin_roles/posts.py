@@ -39,7 +39,7 @@ class XpathsPost:
 
 @dataclass
 class QueryPost:
-    default_endpoint = 'https://www.linkedin.com/search/results/content/?datePosted=%22past-week%22&keywords={keywords}&sortBy=%22relevance%22'
+    default_endpoint = 'https://www.linkedin.com/search/results/content/?keywords={keywords}&sortBy=%22date_posted%22'
 
     # Per-role search keyword strings; main.py iterates these to scrape each role.
     data_engineer = '"HIRING" "DATA ENGINEER"'
@@ -169,13 +169,19 @@ def extract_linkedin_time(post_id):
     return datetime.fromtimestamp(unix_ms / 1000, tz=timezone.utc)
 
 
-def search_posts(driver, keywords, goal_post=1000, max_idle_scrolls=30, known_ids=None):
+def search_posts(driver, keywords, goal_post=1000, max_idle_scrolls=30,
+                 stop_after_known=5, known_ids=None):
     """Scrape job posts for the search ``keywords`` and return them as a
     ``{post_id: record}`` dict.
 
     Skips any id in ``known_ids`` (already collected this run or on a previous
-    one), so only new posts are returned. Scoring, persistence and summary
-    generation are the caller's responsibility (see ``main.run_scrapper``)."""
+    one), so only new posts are returned. Because the feed is sorted newest-first,
+    a run of ``stop_after_known`` consecutive already-known posts means we've
+    reached previously-scraped territory — everything below is older and known —
+    so we stop early instead of crawling the whole history (the main cost, since
+    every card needs an expensive menu-open to read its id). Scoring, persistence
+    and summary generation are the caller's responsibility (see
+    ``main.run_scrapper``)."""
     known_ids = known_ids or set()
 
     driver.get(QueryPost.endpoint_for(keywords))
@@ -184,49 +190,62 @@ def search_posts(driver, keywords, goal_post=1000, max_idle_scrolls=30, known_id
 
     dict_posts = {}  # only this run's new posts
     idle_scrolls = 0
+    consecutive_known = 0  # run of already-known posts -> reached the boundary
+    reached_known_boundary = False
 
-    while len(dict_posts) < goal_post and idle_scrolls < max_idle_scrolls:
+    while (len(dict_posts) < goal_post and idle_scrolls < max_idle_scrolls
+           and not reached_known_boundary):
+        # Only unprocessed cards are ever in the DOM: each card is removed once
+        # handled (below), so this stays small instead of growing every pass.
         posts = driver.find_elements(By.XPATH, XpathsPost.post_card)
         count_before = len(dict_posts)
 
         for post in posts:
             try:
-                # Skip cards already visited on an earlier scroll pass.
-                if post.get_attribute('data-scrapped'):
-                    continue
-
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", post)
                 # Wait for the card's menu button to render after the scroll.
                 wait_for_element(driver, XpathsPost.control_menu_button, clickable=True, context=post)
 
                 post_id, post_url = get_post_id_via_menu(driver, post)
-                driver.execute_script("arguments[0].setAttribute('data-scrapped', '1');", post)
+
+                if post_id and post_id not in known_ids and post_id not in dict_posts:
+                    # A genuinely new post: collect it and reset the boundary run.
+                    consecutive_known = 0
+                    dict_posts[post_id] = {
+                        'post_id': post_id,
+                        'post_url': post_url,
+                        'posted_at': extract_linkedin_time(post_id).isoformat(),
+                        'author_profile_url': get_attr_if_exists(post, XpathsPost.author_profile_url, 'href'),
+                        'author_name': get_text_if_exists(post, XpathsPost.author_name),
+                        'post_content': get_post_content(post),
+                        'linkedin_job_url': get_attr_if_exists(post, XpathsPost.linkedin_job_url, 'href'),
+                    }
+                    logger.debug('Scrapped post %s (%d/%d)', post_id, len(dict_posts), goal_post)
+                elif post_id and (post_id in known_ids or post_id in dict_posts):
+                    # Already have this one; a run of these means we've caught up.
+                    consecutive_known += 1
+                # (empty id == failed extraction: leave the counter untouched.)
+
+                # Drop the handled card from the DOM so the browser doesn't bloat
+                # (the cause of the slowdown on long runs) and find_elements only
+                # ever returns cards we haven't seen yet.
+                driver.execute_script("arguments[0].remove();", post)
             except StaleElementReferenceException:
                 # LinkedIn re-rendered the feed under us; close any stray menu and
-                # move on. This card will be re-fetched on the next pass.
+                # move on. This card stays in the DOM and is re-fetched next pass.
                 ActionChains(driver).send_keys(Keys.ESCAPE).perform()
                 continue
 
-            # Skip posts without an id, already collected on a previous run, or
-            # already collected this run (dedup by post id).
-            if not post_id or post_id in known_ids or post_id in dict_posts:
-                continue
-
-            dict_posts[post_id] = {
-                'post_id': post_id,
-                'post_url': post_url,
-                'posted_at': extract_linkedin_time(post_id).isoformat(),
-                'author_profile_url': get_attr_if_exists(post, XpathsPost.author_profile_url, 'href'),
-                'author_name': get_text_if_exists(post, XpathsPost.author_name),
-                'post_content': get_post_content(post),
-                'linkedin_job_url': get_attr_if_exists(post, XpathsPost.linkedin_job_url, 'href'),
-            }
-            logger.debug('Scrapped post %s (%d/%d)', post_id, len(dict_posts), goal_post)
-
+            if consecutive_known >= stop_after_known:
+                reached_known_boundary = True
+                logger.debug('Reached known boundary after %d consecutive known posts',
+                             consecutive_known)
+                break
             if len(dict_posts) >= goal_post:
                 break
 
-        # Nothing new collected this pass: we likely hit the bottom, scroll to load more.
+        # No new posts this pass: likely scrolled into already-known territory or
+        # hit the bottom — count toward the idle stop.
         if len(dict_posts) > count_before:
             idle_scrolls = 0
         else:
@@ -236,7 +255,7 @@ def search_posts(driver, keywords, goal_post=1000, max_idle_scrolls=30, known_id
         # Wait for more cards to lazy-load; idle detection handles a timeout.
         try:
             WebDriverWait(driver, 5).until(
-                lambda d: len(d.find_elements(By.XPATH, XpathsPost.post_card)) > len(posts)
+                lambda d: d.find_elements(By.XPATH, XpathsPost.post_card)
             )
         except TimeoutException:
             pass

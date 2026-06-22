@@ -112,12 +112,17 @@ negative buckets by severity:
 Right-to-work gates — candidate has no EU/US auth, and these roles either require
 existing status or won't sponsor:
   - US: `usc`, `gc only`, `green card`, `us citizen`, `u.s. citizen`,
-    `citizenship required`, `h1b`, `stem opt`, `h4 ead`/`h4ead`, `c2c`, `w2`/`w-2`
+    `citizenship required`, `h1b`/`h-1b` (hyphenated form is a *substring* miss of
+    `h1b` — both needed), `stem opt`, `h4 ead`/`h4ead`, `c2c`, `w2`/`w-2`
     (US tax-employment ⇒ needs US work eligibility), `us-based`/`us based`,
     `local candidates only`, `work authorization`, `security clearance`.
   - EU/UK: `eu citizen`, `eu work permit`, `right to work in the uk`,
     `uk work permit`, `settled status`, `indefinite leave to remain`. Plus
     `australian citizen`.
+  - Existing-permit gate (any country): `valid work permit` — requires
+    right-to-work the candidate doesn't hold. **Use the `valid `-qualified form,
+    NOT bare `work permit`**, which also appears in *offers* ("work permit and
+    relocation support provided" — a positive we must not kill).
   - No-sponsorship signals: `no sponsorship`, `no visa sponsorship`,
     `sponsorship is not available`.
   - **Note:** relocation itself is NOT here — it's a positive (see remote bucket).
@@ -142,8 +147,22 @@ categorical the way a citizenship wall is:
 - **Seniority floor**: `junior`, `intern(ship)`, `trainee`, `recent/new/fresh
   graduate`, `fresher`, `estagio`/`estagiario`.
 - **Tech / role mismatch** (not in profile, common in corpus): `java`, `.net`,
-  `c#`, `sap`, `embedded systems`/`embedded c`, QA-test roles (`qa automation`,
-  `test automation`, `automation testing`, `sdet`).
+  `c#`, `c++`, `golang`, `sap`, `embedded systems`/`embedded c`, QA-test roles
+  (`qa automation`, `test automation`, `automation testing`, `sdet`). **Use the
+  specific form** — `c++`/`golang`, never bare `c`/`go`, which match ~25/8 posts
+  each on stray "C"/"Go" tokens (grades, "C-level", "go-getter") and silently drop
+  good posts.
+- **Job-seeker / bench-sales noise** (posts *seeking* work or a recruiter pitching
+  candidates, not offering a real role — the inverse of what we want): `hotlist`,
+  `bench sales`, `available consultants`, `working with a bench`,
+  `represent my consultants`, `c2h`, `opentowork`, `looking for new opportunities`.
+  These were validated to hit **only** seeker/bench posts. The trap: "looking
+  for"/"seeking"/"exploring" appear in *both* directions — a hiring post says "if
+  you're seeking a new opportunity, we'd love to hear from you". So **reject
+  ambiguous phrases** (bare `seeking a new opportunity`, bare `open to work` —
+  which also matches "open to work from anywhere" in a remote offer) and keep only
+  self-referential / bench-specific forms. Use the hashtag `opentowork`, not the
+  bare phrase.
 
 ## Tuning workflow (when retuning against a corpus)
 1. Extract `post_content`, `score`, `matched_keywords` from
