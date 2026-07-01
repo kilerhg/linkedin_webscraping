@@ -55,6 +55,7 @@
         "h4 ead", "h4ead", "c2c", "valid work permit",
         "no sponsorship", "no visa sponsorship",
         "sponsorship is not available", "w2", "w-2", "us-based", "us based",
+        "authorized to work in", "locals only",
         "local candidates only", "eu citizen", "eu work permit",
         "right to work in the uk", "uk work permit", "settled status",
         "indefinite leave to remain"
@@ -75,9 +76,20 @@
         "gurgaon", "pune", "chennai", "mumbai", "kolkata", "indore", "vizag",
         "visakhapatnam", "delhi", "ahmedabad", "coimbatore", "kochi", "jaipur",
         "nagpur", "mysore", "mysuru", "trivandrum",
-        "unpaid", "java", ".net", "c#", "sap", "embedded systems", "embedded c",
+        "united states", "canada",
+        "remote (usa", "remote - usa", "remote in usa", "(usa)", "usa)",
+        "usa only", "usa & global", "only from us",
+        "unpaid",
         "qa automation", "test automation", "automation testing", "sdet",
-        "business analyst", "data analyst", "c++", "golang"
+        "business analyst", "data analyst"
+      ]
+    },
+    "tech_mismatch": {
+      "weight": -6,
+      "hard": false,
+      "keywords": [
+        "java", ".net", "c#", "c++", "golang", "sap",
+        "embedded systems", "embedded c"
       ]
     }
   }

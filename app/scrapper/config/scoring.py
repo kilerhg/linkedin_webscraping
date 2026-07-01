@@ -31,10 +31,22 @@ def load_buckets(path=BUCKETS_FILE):
 SKILL_CAP, BUCKETS = load_buckets()
 
 # Buckets with a negative weight are disqualifiers (dealbreaker, visa_block, …).
-# The digest treats them as flags and excludes posts that hit them — derive the
-# set from the weights so adding a new negative bucket needs no code change.
+# The digest treats them as flags and never counts them as positive matches —
+# derive the set from the weights so adding a new negative bucket needs no code
+# change.
 NEGATIVE_BUCKETS = frozenset(
     name for name, bucket in BUCKETS.items() if bucket["weight"] < 0
+)
+
+# Hard-negative buckets *exclude* the post from the digest outright when it hits
+# them (e.g. a visa wall, an India-onsite marker). A negative bucket can opt out
+# of hard exclusion with ``"hard": false`` in buckets.json — such a bucket only
+# *penalizes* the score (soft skip), so an otherwise strong post can still clear
+# ``min_score``. Used for tech-mismatch tokens (java, c++, .net…) that often
+# appear as a nice-to-have or a sibling role in a broad relocation/LATAM post and
+# shouldn't nuke it on a single mention. Defaults to hard when unspecified.
+HARD_NEGATIVE_BUCKETS = frozenset(
+    name for name in NEGATIVE_BUCKETS if BUCKETS[name].get("hard", True)
 )
 
 

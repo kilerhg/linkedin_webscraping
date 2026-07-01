@@ -9,8 +9,10 @@ This skill is the *rationale and rulebook* behind
 [buckets.json](app/scrapper/config/buckets.json) and
 [scoring.py](app/scrapper/config/scoring.py). For pipeline/architecture see the
 `linkedin-job-digest` skill; for regenerating buckets from a fresh resume see
-`profile-to-buckets`. This one explains **why the keywords/weights are what they
-are** and the **validation rules** a change must respect.
+`profile-to-buckets`; for the **step-by-step method to audit false
+positives/negatives** and before/after-check a change, see `match-quality-audit`.
+This one explains **why the keywords/weights are what they are** and the
+**validation rules** a change must respect.
 
 ## Business goal
 Surface the **few last-24h posts that are genuinely worth this candidate's time**
@@ -33,6 +35,7 @@ weight per match:
 | `seniority`   | +3     | once by presence                               |
 | `remote`      | +5     | once by presence                               |
 | `dealbreaker` | −10    | per distinct keyword (compounds)               |
+| `tech_mismatch` | −6   | per distinct keyword — **soft skip** (`hard:false`) |
 | `visa_block`  | −100   | per distinct keyword — **absolute kill**       |
 
 **Max positive ≈ 25** (12 skill + 5 role + 3 seniority + 5 remote). The skill cap
@@ -41,10 +44,30 @@ exists so a long tool-dump can't outweigh true fit signals (role + remote).
 ### Negative buckets are derived from weight, not name
 `scoring.py` exposes `NEGATIVE_BUCKETS = {name for name, b in BUCKETS if
 b.weight < 0}`. The digest ([utils.py](app/scrapper/utils/utils.py)) uses this set
-— **not** a hard-coded `"dealbreaker"` — to (a) exclude posts that hit any
-negative bucket, (b) render them under `Flags:` (grouped by bucket), and (c) keep
-them out of the positive `Matched:` line. So adding another negative bucket needs
-**no code change** — just give it a negative weight in `buckets.json`.
+— **not** a hard-coded `"dealbreaker"` — to (a) render hits under `Flags:`
+(grouped by bucket) and (b) keep them out of the positive `Matched:` line. So
+adding another negative bucket needs **no code change** — just give it a negative
+weight in `buckets.json`.
+
+### Hard vs soft negatives (`"hard"`)
+Exclusion is **binary**: [utils.py](app/scrapper/utils/utils.py) and
+[alerts.py](app/scrapper/utils/alerts.py) drop a post that hits **any hard**
+negative bucket, regardless of the final score. `scoring.py` derives
+`HARD_NEGATIVE_BUCKETS = {n in NEGATIVE_BUCKETS if BUCKETS[n].get("hard", True)}`
+— a negative bucket is hard **unless** it sets `"hard": false`. A **soft**
+negative (only `tech_mismatch` today) *penalizes the score* but does **not**
+exclude, so a strong post can still clear `min_score`; it still shows under
+`Flags:` and never counts as a positive. This split exists because exclusion was
+previously all-or-nothing: a single stray `java`/`c++` token hard-killed
+otherwise-ideal EU-relocation / LATAM posts where that tech was a nice-to-have or
+belonged to a sibling role in a multi-role blast. At −6, one mismatch survives on
+a full-fit post (25→19 ≥ 18) but two sink it — the signal being "is the post
+*about* java, or does it merely *mention* it".
+
+**Note:** stored `score`/`matched_keywords` in [posts.json](data/posts.json) are
+computed at scrape time; [main.py](app/scrapper/main.py) only backfills records
+*missing* a score. After changing `buckets.json`, **re-score the whole corpus in
+place** or old records keep stale scores (the digest reads the stored values).
 
 ### `visa_block` — the hard constraint
 A separate negative bucket at **−100** for right-to-work gates the candidate
@@ -105,8 +128,9 @@ a soft "skip"; "US citizens only" is a categorical "never".
 
 ## What disqualifies
 The corpus is dominated by clusters the candidate cannot take; these markers catch
-them regardless of how "remote" the post claims to be. They split across **two**
-negative buckets by severity:
+them regardless of how "remote" the post claims to be. They split across **three**
+negative buckets by severity: `visa_block` (−100, kill), `dealbreaker` (−10, hard
+skip), and `tech_mismatch` (−6, **soft** skip — penalty only, no exclusion):
 
 ### `visa_block` (−100, absolute kill)
 Right-to-work gates — candidate has no EU/US auth, and these roles either require
@@ -139,19 +163,32 @@ categorical the way a citizenship wall is:
   up `bangalore`/`bengaluru`, `hyderabad`, `noida`, `gurugram`/`gurgaon`, `pune`,
   `chennai`, `mumbai`, `kolkata`, `indore`, `vizag`/`visakhapatnam`, `delhi`,
   `ahmedabad`, `coimbatore`, `kochi`, `jaipur`, `nagpur`, `mysore`/`mysuru`,
-  `trivandrum`. **Do NOT** add EU/Canada country/city names — many such roles
+  `trivandrum`. **Do NOT** add bare EU/Canada country/city names — many such roles
   offer visa sponsorship (a relocation positive); those "EU-only" posts are an
   accepted residual.
+- **US/Canada location gate** (candidate has no US auth; these rarely sponsor):
+  bare `united states` and `canada` (these strings essentially only appear as a
+  *location* — validated near-zero collateral; the only non-US/Canada hits are
+  aggregator/data-labeling noise). **`usa` is too noisy bare** (204 hits — fires on
+  "EU/USA overlap", "USA & Global", killing real EU-remote roles), so use the
+  **anchored** substring forms only: `remote (usa`, `remote - usa`, `remote in
+  usa`, `(usa)`, `usa)`, `usa only`, `usa & global`, plus `only from us`. Same
+  philosophy as India: gate the *location-locked* post, not an incidental mention.
+  Residual leaks: US **state/city**-only tags (`Dearborn, MI`) aren't caught —
+  bare 2-letter state codes are too dangerous to add. **Latent trap** (same shape
+  as `work permit` vs `valid work permit`): a country name also appears in
+  relocation *offers* ("relocation to Canada, we sponsor") — a positive. Validated
+  **zero** such genuine IC roles in the current corpus (all `canada`/`united
+  states` + relocation/sponsorship hits are staffing blasts / H1B-transfer / C2C,
+  already disqualified otherwise), so bare country names are safe **today**; if a
+  real "we sponsor relocation to the US/Canada" role ever appears it would be a
+  false kill — re-check with `match-quality-audit`'s collateral one-liner.
 - **Under-leveling**: `business analyst`, `data analyst` (below target — engineer/
   lead).
 - **Seniority floor**: `junior`, `intern(ship)`, `trainee`, `recent/new/fresh
   graduate`, `fresher`, `estagio`/`estagiario`.
-- **Tech / role mismatch** (not in profile, common in corpus): `java`, `.net`,
-  `c#`, `c++`, `golang`, `sap`, `embedded systems`/`embedded c`, QA-test roles
-  (`qa automation`, `test automation`, `automation testing`, `sdet`). **Use the
-  specific form** — `c++`/`golang`, never bare `c`/`go`, which match ~25/8 posts
-  each on stray "C"/"Go" tokens (grades, "C-level", "go-getter") and silently drop
-  good posts.
+- **QA-test roles** (the role itself is a mismatch, so a hard skip): `qa
+  automation`, `test automation`, `automation testing`, `sdet`.
 - **Job-seeker / bench-sales noise** (posts *seeking* work or a recruiter pitching
   candidates, not offering a real role — the inverse of what we want): `hotlist`,
   `bench sales`, `available consultants`, `working with a bench`,
@@ -163,6 +200,20 @@ categorical the way a citizenship wall is:
   which also matches "open to work from anywhere" in a remote offer) and keep only
   self-referential / bench-specific forms. Use the hashtag `opentowork`, not the
   bare phrase.
+
+### `tech_mismatch` (−6, **soft skip** — `"hard": false`)
+Languages/stacks not in the profile that, unlike a QA *role* or a citizenship
+wall, frequently appear as a *nice-to-have* or a *sibling role* inside an
+otherwise-strong post: `java`, `.net`, `c#`, `c++`, `golang`, `sap`, `embedded
+systems`/`embedded c`. Because this bucket is soft, one mention only **docks −6**
+(a full-fit 25 still clears `min_score` at 19) and shows under `Flags:`; it no
+longer hard-excludes the post. Two+ mismatches sink it (a genuine Java/.NET shop).
+**Use the specific form** — `c++`/`golang`, never bare `c`/`go`, which match
+~25/8 posts each on stray "C"/"Go" tokens (grades, "C-level", "go-getter"). This
+recovered the EU-relocation (Warsaw bank, Vilnius Blue-Card) and LATAM-remote
+(Centro y Sudamérica) posts that a single stray `java` had been hard-killing.
+Residual cost: a real single-`java`-role that otherwise looks like a full Python
+fit can now surface (accepted trade-off).
 
 ## Tuning workflow (when retuning against a corpus)
 1. Extract `post_content`, `score`, `matched_keywords` from

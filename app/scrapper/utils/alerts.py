@@ -11,16 +11,18 @@ from datetime import datetime, timedelta, timezone
 import requests
 
 from app.config import settings
-from app.scrapper.config.scoring import NEGATIVE_BUCKETS
+from app.scrapper.config.scoring import HARD_NEGATIVE_BUCKETS
 
 
 def select_alert_posts(posts, min_score, max_age_min, exclude_dealbreakers=True):
     """Return records worth alerting on, highest score first.
 
     Keeps posts scoring >= ``min_score`` that were posted within the last
-    ``max_age_min`` minutes and (when ``exclude_dealbreakers``) hit no negative
-    bucket. ``posts`` is a ``{post_id: record}`` dict — in the alert run it is the
-    *new* posts from this poll, so each qualifying post alerts exactly once.
+    ``max_age_min`` minutes and (when ``exclude_dealbreakers``) hit no hard
+    negative bucket (soft-penalty buckets like ``tech_mismatch`` only dock score,
+    they don't exclude). ``posts`` is a ``{post_id: record}`` dict — in the alert
+    run it is the *new* posts from this poll, so each qualifying post alerts
+    exactly once.
     """
     now = datetime.now(timezone.utc)
     cutoff = now - timedelta(minutes=max_age_min)
@@ -29,7 +31,7 @@ def select_alert_posts(posts, min_score, max_age_min, exclude_dealbreakers=True)
         if record.get("score", 0) < min_score:
             continue
         matched = record.get("matched_keywords", {})
-        if exclude_dealbreakers and any(matched.get(b) for b in NEGATIVE_BUCKETS):
+        if exclude_dealbreakers and any(matched.get(b) for b in HARD_NEGATIVE_BUCKETS):
             continue
         try:
             posted_at = datetime.fromisoformat(record.get("posted_at", ""))

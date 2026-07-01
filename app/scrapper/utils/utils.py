@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
-from app.scrapper.config.scoring import NEGATIVE_BUCKETS
+from app.scrapper.config.scoring import HARD_NEGATIVE_BUCKETS, NEGATIVE_BUCKETS
 
 # Default location for scraped posts. parents[3] = repo root:
 # utils -> scrapper -> app -> root.
@@ -99,7 +99,7 @@ def write_summary_markdown(posts, top_n, min_score, roles=None, path=None, hours
         if posted_at < cutoff or record.get("score", 0) < min_score:
             continue
         matched = record.get("matched_keywords", {})
-        if exclude_dealbreakers and any(matched.get(b) for b in NEGATIVE_BUCKETS):
+        if exclude_dealbreakers and any(matched.get(b) for b in HARD_NEGATIVE_BUCKETS):
             continue
         if require_remote and not matched.get("remote"):
             continue
