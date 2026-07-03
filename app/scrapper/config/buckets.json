@@ -79,6 +79,11 @@
         "united states", "canada",
         "remote (usa", "remote - usa", "remote in usa", "(usa)", "usa)",
         "usa only", "usa & global", "only from us",
+        "remote (us", "(us only)", "us-only",
+        "remote european union", "remote-first within europe", "remote (europe",
+        "remote (eu)", "eu only", "(eu only)", "eu-based", "eu based",
+        "europe-based", "emea-based",
+        "remote (uk", "fully remote (uk", "remote - uk", "uk only", "uk-based",
         "unpaid",
         "qa automation", "test automation", "automation testing", "sdet",
         "business analyst", "data analyst"

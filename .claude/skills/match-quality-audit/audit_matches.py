@@ -46,6 +46,14 @@ GEO_GATE_PROBES = [
     r", (ny|nj|ca|tx|il|ga|va|wa|ma|fl|az|nc|oh|pa|mi)\b",
     r"\b(new york|chicago|dallas|austin|atlanta|boston|seattle|toronto|"
     r"ontario|vancouver|dearborn)\b",
+    # Region-locked remote: "remote, but only from <region the candidate can't
+    # work in>". NB the noise here is real — a LATAM lock ("remote, must be based
+    # in Brazil") is a *good* fit and a timezone-overlap requirement is fine, so
+    # these are eyeball-prompts only; the buckets gate EU/UK/US-anchored forms.
+    r"remote[^.]{0,20}\b(within|in|across|based in|from)\b[^.]{0,25}"
+    r"\b(eu|europe|european union|uk|united kingdom|emea)\b",
+    r"\bremote\b[^.]{0,12}\(?(eu|europe|european union|uk|us|usa)\b",
+    r"\b(eu|europe|emea|uk)[- ]based\b", r"remote european union",
 ]
 ONSITE_PROBES = [r"\bon-?site\b", r"from office", r"\bwfo\b", r"\bhybrid\b",
                  r"\bist\b(?!\w)", r"\bin[- ]office\b"]

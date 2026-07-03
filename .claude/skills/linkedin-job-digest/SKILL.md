@@ -66,21 +66,32 @@ keywords/weights are **data in `buckets.json`** (loaded at import). Buckets:
   (synonyms in a bucket = one signal). The **remote** bucket also holds
   eligibility signals: `latam`/`brazil` and **relocation** (the candidate is open
   to remote *or* relocation, so relocation is a positive).
-- **dealbreaker** (−10) — soft skips: onsite/India-locale/junior/staffing-noise.
+- **dealbreaker** (−10) — hard skips: onsite/India-locale/junior/staffing-noise,
+  plus US/Canada and **region-locked-remote** gates (`remote european union`,
+  `remote (uk`, `remote (us`, … — remote *only from* a region the candidate can't
+  work in, distinct from a relocation offer).
+- **tech_mismatch** (−6, `"hard": false`) — **soft** skip: off-profile stacks
+  (`java`, `c++`, `.net`, …) that only *penalize* the score, so a strong post
+  survives a single mention instead of being excluded outright.
 - **visa_block** (−100) — absolute kill for right-to-work walls the candidate
   can't clear (US/EU citizenship, `w2`/`c2c`, `no visa sponsorship`, …).
-Any bucket with **weight < 0** is treated as negative (see below) — `scoring.py`
-exposes `NEGATIVE_BUCKETS`. For the full rationale see the `job-scoring-rules`
-skill; to regenerate from a resume see `profile-to-buckets`.
+Any bucket with **weight < 0** is negative — `scoring.py` exposes
+`NEGATIVE_BUCKETS` (flags + non-positive) and `HARD_NEGATIVE_BUCKETS` (the subset
+that *excludes*; a negative bucket is hard unless it sets `"hard": false`). For the
+full rationale see the `job-scoring-rules` skill; to regenerate from a resume see
+`profile-to-buckets`.
 
 ## Summary selection — [utils.py](app/scrapper/utils/utils.py) `write_summary_markdown`
 - Filter to posts within the last 24h with `score >= JOB_SUMMARY_MIN_SCORE`.
-- **Hard-exclude** posts hitting **any negative bucket** (`NEGATIVE_BUCKETS`:
-  `dealbreaker`, `visa_block`) when `JOB_EXCLUDE_DEALBREAKERS` (default on);
-  require an explicit remote mention when `JOB_REQUIRE_REMOTE` (default off).
+- **Hard-exclude** posts hitting **any hard negative bucket**
+  (`HARD_NEGATIVE_BUCKETS`: `dealbreaker`, `visa_block`) when
+  `JOB_EXCLUDE_DEALBREAKERS` (default on); a **soft** negative (`tech_mismatch`)
+  only docks score, so such a post can still surface. Require an explicit remote
+  mention when `JOB_REQUIRE_REMOTE` (default off).
 - Rank by score desc, take top `JOB_SUMMARY_TOP_N`, write
-  `data/summary-YYYY-MM-DD.md`. Negative buckets render on a separate `Flags:`
-  line (grouped by bucket), never under `Matched:`. The digest is **idempotent** —
+  `data/summary-YYYY-MM-DD.md`. **All** negative buckets (hard and soft) render on
+  a separate `Flags:` line (grouped by bucket), never under `Matched:`. The digest
+  is **idempotent** —
   rewritten from the full last-24h state each run, so a frequent poller just keeps
   it current.
 
@@ -88,7 +99,8 @@ skill; to regenerate from a resume see `profile-to-buckets`.
 A side-channel for *applying first*, stricter than the digest:
 - `select_alert_posts(new_posts, …)` keeps only this run's **new** posts that score
   `>= JOB_ALERT_MIN_SCORE` (=18, strong-to-ideal), were posted within
-  `JOB_ALERT_MAX_AGE_MIN` (=60) minutes, and hit no negative bucket. Operating on
+  `JOB_ALERT_MAX_AGE_MIN` (=60) minutes, and hit no **hard** negative bucket
+  (`HARD_NEGATIVE_BUCKETS` — soft `tech_mismatch` only docks score). Operating on
   *new* posts (incremental dedup) means each qualifying post **alerts exactly
   once** across the morning's runs.
 - `send_ntfy_alert` POSTs to `{NTFY_SERVER}/{NTFY_TOPIC}` (high priority, post URL

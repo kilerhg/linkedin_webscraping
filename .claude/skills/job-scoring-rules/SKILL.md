@@ -183,6 +183,26 @@ categorical the way a citizenship wall is:
   already disqualified otherwise), so bare country names are safe **today**; if a
   real "we sponsor relocation to the US/Canada" role ever appears it would be a
   false kill — re-check with `match-quality-audit`'s collateral one-liner.
+- **Region-locked remote** (remote, but *only from* a region the candidate can't
+  legally work in — a work-eligibility gate, not a relocation offer): EU/UK/US
+  forms `remote european union`, `remote-first within europe`, `remote (europe`,
+  `remote (eu)`, `eu only`/`(eu only)`, `eu-based`/`eu based`, `europe-based`,
+  `emea-based`, `remote (uk`, `fully remote (uk`, `remote - uk`, `uk only`,
+  `uk-based`, `remote (us`, `(us only)`, `us-only`. **Two hard rules that keep
+  this from eating the best roles:**
+  1. **Never gate on LATAM or a generic "must be based in".** The *ideal* post
+     — "Remote – LATAM, candidates must be based in: Argentina, Brazil, Chile" —
+     is a region-locked remote the candidate DOES qualify for. Only the
+     EU/UK/US-anchored forms above are listed; `must be based in` alone would
+     kill it.
+  2. **Never gate on a timezone.** "must overlap US timezone" is routine in
+     genuinely-good LATAM roles (same working hours ≠ US work eligibility), so
+     `us timezone`/`us time zone` are **deliberately excluded** — they'd false-
+     kill LATAM fits.
+  Validated zero collateral (the only hits sharing LATAM/relocation words are
+  multi-role aggregator posts). Accepted residual: specific-country *lists*
+  ("Remote locations: Portugal, Spain") aren't caught — same accepted-EU-residual
+  reasoning as bare country names.
 - **Under-leveling**: `business analyst`, `data analyst` (below target — engineer/
   lead).
 - **Seniority floor**: `junior`, `intern(ship)`, `trainee`, `recent/new/fresh
