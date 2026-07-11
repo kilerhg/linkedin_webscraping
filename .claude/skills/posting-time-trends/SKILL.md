@@ -43,6 +43,13 @@ prior `data/trends-*.md` to spot movement.
 2. **Hourly quality curve (score >= 0 only)** — count *and average score* per
    hour, to find the slot that is both busy and high-quality (mean is dragged
    down by deep-negative flagged posts if you don't filter, hence positives-only).
+3. **Company pages by volume** — how many posts each company page authored in the
+   window (`/company/<slug>` of `author_profile_url`; personal-profile posts are
+   excluded from this count). High counts flag likely job **indexers/aggregators**;
+   pages already muted in
+   [filtered_accounts.json](app/scrapper/config/filtered_accounts.json) are tagged
+   `[filtered]`. Use this to decide which new pages to add to that filter (they're
+   then dropped from the digest/alerts — see `linkedin-job-digest`).
 
 ## How to read it (methodology derived from the corpus)
 - **Translate hours to the poster's region, not yours.** The corpus is

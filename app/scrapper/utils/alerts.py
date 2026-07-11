@@ -11,6 +11,7 @@ from datetime import datetime, timedelta, timezone
 import requests
 
 from app.config import settings
+from app.scrapper.config.accounts import is_filtered_account
 from app.scrapper.config.scoring import HARD_NEGATIVE_BUCKETS
 
 
@@ -29,6 +30,9 @@ def select_alert_posts(posts, min_score, max_age_min, exclude_dealbreakers=True)
     selected = []
     for record in posts.values():
         if record.get("score", 0) < min_score:
+            continue
+        # Never alert on indexer/aggregator company pages (not the real recruiter).
+        if is_filtered_account(record):
             continue
         matched = record.get("matched_keywords", {})
         if exclude_dealbreakers and any(matched.get(b) for b in HARD_NEGATIVE_BUCKETS):

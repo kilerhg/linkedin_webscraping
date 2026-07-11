@@ -81,8 +81,21 @@ that *excludes*; a negative bucket is hard unless it sets `"hard": false`). For 
 full rationale see the `job-scoring-rules` skill; to regenerate from a resume see
 `profile-to-buckets`.
 
+## Filtered posting accounts — [accounts.py](app/scrapper/config/accounts.py) + [filtered_accounts.json](app/scrapper/config/filtered_accounts.json)
+Some company pages *index/aggregate* jobs rather than being the real recruiter
+(e.g. `remoteyeah`, job-board pages like `techjobs360`). They're listed as full
+LinkedIn company URLs in `filtered_accounts.json` (data, no code change to extend);
+`is_filtered_account(record)` matches a record's `author_profile_url` by its
+`/company/<slug>` (case-insensitive, trailing slash/query ignored). Such posts are
+**still scraped and kept** in `posts.json`, but **excluded from both the digest and
+push alerts** — reversible, and keeps the data for the company-page volume report
+(see `posting-time-trends`). To find new indexers to add, read that report's
+"Company pages by volume" section.
+
 ## Summary selection — [utils.py](app/scrapper/utils/utils.py) `write_summary_markdown`
 - Filter to posts within the last 24h with `score >= JOB_SUMMARY_MIN_SCORE`.
+- **Drop filtered posting accounts** (`is_filtered_account` — indexer company
+  pages); alerts (`select_alert_posts`) apply the same exclusion.
 - **Hard-exclude** posts hitting **any hard negative bucket**
   (`HARD_NEGATIVE_BUCKETS`: `dealbreaker`, `visa_block`) when
   `JOB_EXCLUDE_DEALBREAKERS` (default on); a **soft** negative (`tech_mismatch`)

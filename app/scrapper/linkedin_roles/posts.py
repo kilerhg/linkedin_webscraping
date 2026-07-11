@@ -34,6 +34,10 @@ class XpathsPost:
     copied_post_link = '//a[contains(@href, "/posts/") and contains(@href, "utm_source=share")]'
     author_profile_url = './/a[contains(@href, "https://www.linkedin.com/in/")]'
     author_name = './/a[contains(@href, "https://www.linkedin.com/in/")]//p/span[not(./*)]'
+    # Company pages post as an organization, not a person: their actor link points
+    # to /company/ instead of /in/. Used as a fallback when no personal author exists.
+    company_profile_url = './/a[contains(@href, "https://www.linkedin.com/company/")]'
+    company_name = './/a[contains(@href, "https://www.linkedin.com/company/")]//p/span[not(./*)]'
     post_content = './/span[@data-testid="expandable-text-box"]'
     linkedin_job_url = './/a[contains(@href, "https://www.linkedin.com/jobs/view")]' # Optional
 
@@ -89,6 +93,20 @@ def get_post_content(post):
     element = elements[0]
     text = element.get_attribute("innerText") or element.get_attribute("textContent") or ''
     return _SEE_MORE_SUFFIX_RE.sub("", text).strip()
+
+
+def get_post_author(post):
+    """Return the post author's ``(profile_url, name)``.
+
+    Prefers a personal actor (a ``/in/`` link) and falls back to a company page
+    (``/company/``) when the post is authored by an organization. Both fields are
+    read from the *same* actor kind, so the url and name never end up describing
+    different entities (e.g. a personal link paired with a company name)."""
+    personal_url = get_attr_if_exists(post, XpathsPost.author_profile_url, 'href')
+    if personal_url:
+        return personal_url, get_text_if_exists(post, XpathsPost.author_name)
+    return (get_attr_if_exists(post, XpathsPost.company_profile_url, 'href'),
+            get_text_if_exists(post, XpathsPost.company_name))
 
 
 def dismiss_copy_toast(driver):
@@ -211,12 +229,13 @@ def search_posts(driver, keywords, goal_post=1000, max_idle_scrolls=30,
                 if post_id and post_id not in known_ids and post_id not in dict_posts:
                     # A genuinely new post: collect it and reset the boundary run.
                     consecutive_known = 0
+                    author_profile_url, author_name = get_post_author(post)
                     dict_posts[post_id] = {
                         'post_id': post_id,
                         'post_url': post_url,
                         'posted_at': extract_linkedin_time(post_id).isoformat(),
-                        'author_profile_url': get_attr_if_exists(post, XpathsPost.author_profile_url, 'href'),
-                        'author_name': get_text_if_exists(post, XpathsPost.author_name),
+                        'author_profile_url': author_profile_url,
+                        'author_name': author_name,
                         'post_content': get_post_content(post),
                         'linkedin_job_url': get_attr_if_exists(post, XpathsPost.linkedin_job_url, 'href'),
                     }

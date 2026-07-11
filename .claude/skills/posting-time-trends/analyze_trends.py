@@ -11,6 +11,7 @@ the poller. Run weekly. See the `posting-time-trends` SKILL.md for interpretatio
 """
 import argparse
 import json
+import re
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -18,10 +19,33 @@ from statistics import mean
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 POSTS_JSON = REPO_ROOT / "data" / "posts.json"
+# Company pages already filtered out of the digest/alerts (job indexers, not the
+# real recruiter). Read directly to keep this script stdlib-only; flagged in the
+# company-page breakdown so it's clear which high-volume pages are already muted.
+FILTERED_ACCOUNTS_JSON = REPO_ROOT / "app" / "scrapper" / "config" / "filtered_accounts.json"
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 # Reference zones to read the local clock a wave was posted in (helps attribute a
 # peak to a region's business hours). Offsets are standard-time; DST shifts ±1h.
 REF_ZONES = {"US-ET": -4, "CEST": 2, "IST": 5.5}
+
+# Pull the slug out of a LinkedIn company URL: .../company/<slug>[/...][?...].
+_COMPANY_SLUG_RE = re.compile(r"/company/([^/?#]+)", re.IGNORECASE)
+
+
+def _company_slug(url):
+    """Return the lowercased ``/company/<slug>`` of a LinkedIn URL, or None."""
+    match = _COMPANY_SLUG_RE.search(url or "")
+    return match.group(1).lower() if match else None
+
+
+def _filtered_slugs(path=FILTERED_ACCOUNTS_JSON):
+    """Load the set of already-filtered company-page slugs from config."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return set()
+    return {s for s in (_company_slug(u) for u in data.get("company_pages", [])) if s}
 
 
 def _local(record, tz):
@@ -50,7 +74,9 @@ def build_report(posts, tz_off, min_scores, since_days):
     now = datetime.now(timezone.utc)
     cutoff = now - timedelta(days=since_days) if since_days else None
 
+    filtered_slugs = _filtered_slugs()
     records = []
+    company_counts = Counter()  # posts per company page in the window
     for rec in posts.values():
         local = _local(rec, tz)
         if local is None:
@@ -58,6 +84,9 @@ def build_report(posts, tz_off, min_scores, since_days):
         if cutoff and datetime.fromisoformat(rec["posted_at"]) < cutoff:
             continue
         records.append((rec.get("score", 0), local))
+        slug = _company_slug(rec.get("author_profile_url"))
+        if slug:
+            company_counts[slug] += 1
 
     window = f"last {since_days} days" if since_days else "all history"
     lines = [
@@ -114,6 +143,29 @@ def build_report(posts, tz_off, min_scores, since_days):
         avg = f"{mean(vals):4.1f}" if vals else "  - "
         lines.append(f"    {h:02d}:00 {len(vals):4} {avg}  {_bar(len(vals), 1)}")
     lines.append("")
+
+    # --- Company-page volume ---------------------------------------------------
+    # How many posts each company page authored — surfaces indexer/aggregator
+    # pages that flood the feed so you can add them to filtered_accounts.json.
+    # A "[filtered]" tag marks pages already excluded from the digest/alerts.
+    total_company_posts = sum(company_counts.values())
+    lines += [
+        "## Company pages by volume",
+        "",
+        f"Posts authored by a company page ({total_company_posts} of {len(records)} "
+        "posts; the rest are personal profiles or have no captured author). High "
+        "counts flag likely job indexers — add them to "
+        "`app/scrapper/config/filtered_accounts.json`.",
+        "",
+    ]
+    if not company_counts:
+        lines += ["_No company-page posts in this window._", ""]
+    else:
+        scale = 30 / max(company_counts.values())
+        for slug, c in company_counts.most_common(15):
+            tag = "  [filtered]" if slug in filtered_slugs else ""
+            lines.append(f"    {slug[:45]:45} {_bar(c, scale):30} {c}{tag}")
+        lines.append("")
 
     return "\n".join(lines)
 

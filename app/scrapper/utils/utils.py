@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
+from app.scrapper.config.accounts import is_filtered_account
 from app.scrapper.config.scoring import HARD_NEGATIVE_BUCKETS, NEGATIVE_BUCKETS
 
 # Default location for scraped posts. parents[3] = repo root:
@@ -97,6 +98,9 @@ def write_summary_markdown(posts, top_n, min_score, roles=None, path=None, hours
         except (TypeError, ValueError):
             continue
         if posted_at < cutoff or record.get("score", 0) < min_score:
+            continue
+        # Drop indexer/aggregator company pages (not the real recruiter).
+        if is_filtered_account(record):
             continue
         matched = record.get("matched_keywords", {})
         if exclude_dealbreakers and any(matched.get(b) for b in HARD_NEGATIVE_BUCKETS):
