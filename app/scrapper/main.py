@@ -94,32 +94,38 @@ def push_alerts(new_posts):
 
 def run_scrapper():
     driver = SeleniumConfig().get_driver()
-    login.ensure_logged_in(driver)
+    try:
+        login.ensure_logged_in(driver)
 
-    existing = load_posts_json()
-    new_posts, roles = harvest_new_posts(driver, existing)
+        existing = load_posts_json()
+        new_posts, roles = harvest_new_posts(driver, existing)
 
-    # Real-time push for the fresh, strong matches in this harvest (apply first).
-    push_alerts(new_posts)
+        # Real-time push for the fresh, strong matches in this harvest (apply first).
+        push_alerts(new_posts)
 
-    # Backfill records that predate scoring/email extraction.
-    for record in existing.values():
-        if 'score' not in record:
-            score_record(record)
-        if 'email' not in record:
-            add_email(record)
+        # Backfill records that predate scoring/email extraction.
+        for record in existing.values():
+            if 'score' not in record:
+                score_record(record)
+            if 'email' not in record:
+                add_email(record)
 
-    # Merge, persist, and (re)write the daily digest of the top matches.
-    existing.update(new_posts)
-    save_posts_json(existing)
-    summary_path, top = write_summary_markdown(
-        existing, settings.JOB_SUMMARY_TOP_N, settings.JOB_SUMMARY_MIN_SCORE,
-        roles=list(roles),
-        exclude_dealbreakers=settings.JOB_EXCLUDE_DEALBREAKERS,
-        require_remote=settings.JOB_REQUIRE_REMOTE,
-    )
-    logging.info('Collected %d new posts (%d total saved)', len(new_posts), len(existing))
-    logging.info('Wrote summary of top %d posts to %s', len(top), summary_path)
+        # Merge, persist, and (re)write the daily digest of the top matches.
+        existing.update(new_posts)
+        save_posts_json(existing)
+        summary_path, top = write_summary_markdown(
+            existing, settings.JOB_SUMMARY_TOP_N, settings.JOB_SUMMARY_MIN_SCORE,
+            roles=list(roles),
+            exclude_dealbreakers=settings.JOB_EXCLUDE_DEALBREAKERS,
+            require_remote=settings.JOB_REQUIRE_REMOTE,
+        )
+        logging.info('Collected %d new posts (%d total saved)', len(new_posts), len(existing))
+        logging.info('Wrote summary of top %d posts to %s', len(top), summary_path)
+    finally:
+        # Always tear the browser down, even on error/OOM. Without this a crashed
+        # run orphans the Chrome process tree, which keeps holding RAM and — across
+        # repeated poller runs — compounds into the out-of-memory pressure.
+        driver.quit()
 
 
 def main():
